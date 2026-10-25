@@ -3483,3 +3483,393 @@ tbody tr:last-child td {
     font-size: 10px;
   }
 }
+/* Daily downstream propagation */
+.cascade-panel {
+  border-top: 1px solid #dce6f0;
+  background: #f8fbff;
+}
+.cascade-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  padding: 20px 24px 16px;
+}
+.cascade-heading > div > span {
+  font-size: 9px;
+  color: #0070f2;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+.cascade-heading h3 {
+  font-size: 18px;
+  margin: 7px 0;
+}
+.cascade-heading p {
+  font-size: 11px;
+  color: #6d859b;
+}
+.cascade-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0 24px 20px;
+  align-items: flex-end;
+}
+.cascade-inputs label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11px;
+  color: #6e859b;
+}
+.cascade-inputs label strong {
+  color: #0064d9;
+  font-size: 12px;
+}
+.cascade-inputs ui5-select {
+  min-width: 125px;
+}
+.cascade-inputs input {
+  width: 145px;
+  accent-color: #0070f2;
+  margin: 2px 0 8px;
+}
+.cascade-scenario-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 0 24px 18px;
+  flex-wrap: wrap;
+}
+.cascade-scenario-tabs button {
+  font-size: 11px;
+  border: 1px solid #d6e4f3;
+  border-radius: 5px;
+  padding: 9px 14px;
+  color: #54718c;
+  background: white;
+}
+.cascade-scenario-tabs button.active {
+  background: #e6f1ff;
+  color: #0064d9;
+  border-color: #86bafa;
+  font-weight: 700;
+}
+.cascade-scrubber {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 15px 24px;
+  background: #edf4fd;
+  border-block: 1px solid #d6e5f7;
+}
+.cascade-scrubber strong {
+  font-size: 17px;
+  color: #245c92;
+  white-space: nowrap;
+}
+.cascade-scrubber input {
+  flex: 1;
+  accent-color: #0070f2;
+  min-width: 80px;
+}
+.cascade-scrubber > span {
+  font-size: 10px;
+  color: #7f97af;
+  white-space: nowrap;
+}
+.cascade-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px 24px;
+}
+.cascade-metrics > div {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  border-right: 1px solid #dce7f2;
+}
+.cascade-metrics > div:last-child {
+  border: 0;
+}
+.cascade-metrics span {
+  font-size: 10px;
+  color: #6f879d;
+}
+.cascade-metrics strong {
+  font-size: 25px;
+  letter-spacing: -0.5px;
+}
+.cascade-metrics strong small {
+  font-size: 11px;
+  font-weight: 400;
+  color: #7c94ab;
+}
+.cascade-metrics > div > small {
+  font-size: 9px;
+  color: #8298ad;
+  line-height: 1.5;
+}
+.cascade-chart {
+  height: 200px;
+  padding: 0 8px;
+}
+.cascade-key {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 8px 24px 18px;
+  font-size: 9px;
+  color: #6b839a;
+}
+.cascade-key > span {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.cascade-key > span:last-child {
+  margin-left: auto;
+  font-size: 8px;
+}
+.cascade-key i {
+  width: 16px;
+  height: 3px;
+  display: inline-block;
+}
+.cascade-event-preview {
+  padding: 14px 24px 18px;
+  border-top: 1px solid #e0e9f3;
+}
+.cascade-event-preview > strong {
+  font-size: 12px;
+  color: #355b80;
+}
+.cascade-event-preview > div {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 9px;
+  margin-top: 12px;
+}
+.cascade-event-preview button {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+  border: 1px solid #dae6f3;
+  border-radius: 5px;
+  background: white;
+  padding: 10px;
+  font-size: 11px;
+  color: #315c87;
+}
+.cascade-event-preview button > span {
+  font-size: 10px;
+  color: #0070f2;
+  background: #edf5ff;
+  padding: 4px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.cascade-event-preview small {
+  display: block;
+  margin-top: 5px;
+  font-size: 9px;
+  color: #8297aa;
+  line-height: 1.6;
+}
+.cascade-event-preview > p {
+  font-size: 11px;
+  color: #8a9daf;
+  margin-top: 10px;
+}
+.cascade-details {
+  padding: 15px 24px 20px;
+  border-top: 1px solid #e3ebf5;
+}
+.cascade-details > button {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #0064d9;
+  font-size: 11px;
+  cursor: pointer;
+}
+.cascade-details > span {
+  float: right;
+  font-size: 9px;
+  color: #8197ab;
+}
+.cascade-details > p {
+  font-size: 11px;
+  color: #738ba1;
+  line-height: 1.8;
+  margin: 18px 0;
+}
+.cascade-details > label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #6c849c;
+  font-size: 11px;
+}
+.cascade-events {
+  max-height: 340px;
+  border: 1px solid #dde7f3;
+  border-radius: 6px;
+}
+.cascade-events td {
+  font-size: 10px;
+}
+.cascade-events td:first-child button {
+  background: #edf5ff;
+  border: 1px solid #cfe2f8;
+  border-radius: 3px;
+  color: #0064d9;
+  padding: 5px 8px;
+}
+.cascade-events .current-event {
+  background: #edf6ff;
+}
+.cascade-inspector {
+  padding: 17px 20px;
+  border-top: 1px solid #dbe7f3;
+  background: #eef6ff;
+}
+.cascade-inspector > h4 {
+  font-size: 11px;
+  color: #285d8d;
+  margin-bottom: 9px;
+}
+.cascade-inspector > p {
+  font-size: 9px;
+  color: #7c96ad;
+  line-height: 1.7;
+  margin: 7px 0 12px;
+}
+.cascade-record {
+  padding: 12px 0;
+  border-bottom: 1px solid #d6e6f6;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cascade-record strong {
+  font-size: 11px;
+  color: #365f86;
+}
+.cascade-record > span {
+  font-size: 10px;
+  color: #5d7d98;
+}
+.cascade-record > small {
+  font-size: 9px;
+  color: #8ba0b4;
+}
+.cascade-record > .negative-text {
+  color: #bd332d;
+}
+.cascade-record > .positive-text {
+  color: #267649;
+}
+.cascade-inspector > .cascade-record:last-of-type {
+  margin-bottom: 15px;
+}
+.relationship-node.projected-safe .node-indicator {
+  fill: #48b998;
+}
+.relationship-edge.allocation.risk {
+  stroke: #f26c57;
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+.relationship-node.risk .node-body {
+  stroke: #d18b37;
+}
+.supply-explorer.expanded .supply-workbench {
+  min-height: 550px;
+}
+.supply-explorer.expanded .relationship-viewport {
+  height: 600px;
+}
+@media (max-width: 1100px) {
+  .cascade-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cascade-key > span:last-child {
+    width: 100%;
+    margin-left: 0;
+  }
+  .cascade-details > span {
+    float: none;
+    display: block;
+    margin-top: 12px;
+  }
+}
+@media (max-width: 720px) {
+  .cascade-heading {
+    padding: 17px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .cascade-inputs {
+    padding: 0 17px 17px;
+    gap: 17px;
+  }
+  .cascade-inputs > label {
+    width: calc(50% - 10px);
+  }
+  .cascade-inputs ui5-select,
+  .cascade-inputs input {
+    width: 100%;
+    min-width: 0;
+  }
+  .cascade-scenario-tabs {
+    padding: 0 17px 17px;
+    gap: 7px;
+  }
+  .cascade-scenario-tabs button {
+    font-size: 10px;
+    padding: 9px;
+  }
+  .cascade-scrubber {
+    padding: 12px 17px;
+    gap: 9px;
+    flex-wrap: wrap;
+  }
+  .cascade-scrubber > ui5-button {
+    max-width: 110px;
+  }
+  .cascade-scrubber input {
+    min-width: 140px;
+  }
+  .cascade-metrics {
+    padding: 18px 17px;
+    gap: 20px 12px;
+  }
+  .cascade-metrics strong {
+    font-size: 22px;
+  }
+  .cascade-metrics span {
+    font-size: 9px;
+    line-height: 1.6;
+  }
+  .cascade-event-preview {
+    padding: 15px 17px;
+  }
+  .cascade-event-preview > div {
+    grid-template-columns: 1fr;
+  }
+  .cascade-details {
+    padding: 15px 17px;
+  }
+  .cascade-key {
+    padding: 8px 17px 17px;
+    gap: 12px;
+  }
+  .cascade-heading h3 {
+    font-size: 16px;
+  }
+}
+.graph-timebar{padding:14px 16px;border-bottom:1px solid #293d53;display:flex;gap:16px;align-items:center;background:#142436}.graph-timebar>div{min-width:135px;display:flex;flex-direction:column;gap:6px}.graph-timebar strong{font-size:11px;letter-spacing:.6px;color:#8bc7ff}.graph-timebar span{font-size:9px;color:#839fb9}.graph-timebar input{flex:1;min-width:80px;accent-color:#62b8ff}.graph-timebar select{border:1px solid #36536e;background:#1a3047;color:#adc9e1;font-size:10px;border-radius:4px;padding:7px;max-width:160px}@media(max-width:720px){.graph-timebar{padding:12px;gap:10px;flex-wrap:wrap}.graph-timebar>div{min-width:120px}.graph-timebar input{min-width:130px}.graph-timebar select{margin-left:auto}}

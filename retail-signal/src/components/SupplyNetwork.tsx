@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback } from "react";
 import { Button, Icon, Select, Option, Input } from "@ui5/webcomponents-react";
 import type { DemoState, Opportunity } from "../data";
 import { opportunities, money, demandFor } from "../data";
@@ -18,6 +18,9 @@ import {
   alternativeSupplier,
 } from "../supplyNetwork";
 import type { SupplyNode, SupplyEdge } from "../supplyNetwork";
+import { simulateCascade, cascadeNodeState } from "../cascade";
+import { CascadeTimeline, CascadeInspector } from "./CascadeTimeline";
+import type { TimelineControls } from "./CascadeTimeline";
 const glyphs = {
   supplier: "factory",
   product: "product",
@@ -49,7 +52,61 @@ export default function SupplyNetwork({
   const [selected, setSelected] = useState(`supplier:Pacific Apparel Co.`);
   const [filter, setFilter] = useState("All products");
   const [query, setQuery] = useState("");
-  const [extraDays, setExtraDays] = useState(0);
+  const [timeline, setTimeline] = useState<TimelineControls>({
+    enabled: true,
+    day: 0,
+    horizon: 45,
+    supplier: "Pacific Apparel Co.",
+    delayDays: 10,
+    demandPercent: 100,
+    inboundWeeks: 4,
+    response: "rebalance",
+    view: "delayed",
+  });
+  const changeTimeline = useCallback(
+    (patch: Partial<TimelineControls>) =>
+      setTimeline((t) => ({ ...t, ...patch })),
+    [],
+  );
+  const extraDays = timeline.delayDays;
+  const runs = useMemo(() => {
+    const config = {
+      supplier: timeline.supplier,
+      delayDays: timeline.delayDays,
+      horizon: timeline.horizon,
+      demandPercent: timeline.demandPercent,
+      inboundWeeks: timeline.inboundWeeks,
+      response: timeline.response,
+      sku: filter,
+    };
+    return {
+      baseline: simulateCascade(state, {
+        ...config,
+        delayDays: 0,
+        response: "none",
+      }),
+      delayed: simulateCascade(state, { ...config, response: "none" }),
+      response: simulateCascade(state, config),
+    };
+  }, [
+    state,
+    filter,
+    timeline.supplier,
+    timeline.delayDays,
+    timeline.horizon,
+    timeline.demandPercent,
+    timeline.inboundWeeks,
+    timeline.response,
+  ]);
+  const activeRun = runs[timeline.view];
+  const projected = (n: SupplyNode) =>
+    cascadeNodeState(
+      activeRun,
+      timeline.day,
+      n,
+      timeline.supplier,
+      timeline.view === "baseline" ? 0 : extraDays,
+    );
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [expanded, setExpanded] = useState(false);
@@ -87,7 +144,19 @@ export default function SupplyNetwork({
     n.skus.some((sku) => visibleSkus.has(sku)),
   );
   const ids = new Set(visibleNodes.map((n) => n.id));
-  const edges = graph.edges.filter(
+  const forecastEdges: SupplyEdge[] =
+    timeline.enabled && timeline.view === "response"
+      ? activeRun.responseTransfers.map((t, i) => ({
+          id: `forecast-response:${i}`,
+          from: `location:${t.source}`,
+          to: `location:${t.destination}`,
+          skus: [t.sku],
+          kind: "transfer",
+          label: `Forecast response: ${t.quantity} units; receipt day ${t.arrivalDay}`,
+          risk: false,
+        }))
+      : [];
+  const edges = [...graph.edges, ...forecastEdges].filter(
     (e) =>
       ids.has(e.from) &&
       ids.has(e.to) &&
@@ -127,7 +196,12 @@ export default function SupplyNetwork({
   );
   const select = (n: SupplyNode) => {
     setSelected(n.id);
-    setExtraDays(0);
+    if (
+      n.kind === "supplier" &&
+      n.name !== alternativeSupplier &&
+      n.name !== timeline.supplier
+    )
+      changeTimeline({ supplier: n.name, delayDays: 0 });
   };
   const path = (edge: SupplyEdge) => {
     const a = graph.nodes.find((n) => n.id === edge.from)!,
@@ -155,7 +229,7 @@ export default function SupplyNetwork({
           status: "Pending review",
           owner: "Alex Morgan",
           timestamp: now,
-          detail: `Review ${node.name}; ${related.length} linked SKUs. ${extraDays ? `Scenario: ${extraDays} additional delay days. ` : ""}Demo review request; no supplier message sent.`,
+          detail: `Review ${node.name}; ${related.length} linked SKUs. ${node.name === timeline.supplier && extraDays ? `Scenario: ${extraDays} additional delay days. ` : ""}Demo review request; no supplier message sent.`,
         },
         ...state.actions,
       ],
@@ -195,7 +269,13 @@ export default function SupplyNetwork({
                   ? "supplier:Pacific Apparel Co."
                   : `product:${sku}`,
               );
-              setExtraDays(0);
+              changeTimeline({
+                supplier:
+                  sku === "All products"
+                    ? "Pacific Apparel Co."
+                    : opportunities.find((o) => o.sku === sku)!.supplier,
+                delayDays: 0,
+              });
             }}
           >
             <Option
@@ -256,6 +336,42 @@ export default function SupplyNetwork({
       )}
       <div className="supply-workbench">
         <div className="relationship-stage">
+          <div className="graph-timebar">
+            <div>
+              <strong>
+                {timeline.enabled
+                  ? `PROJECTED DAY ${timeline.day}`
+                  : "CURRENT SAVED RECORDS"}
+              </strong>
+              <span>
+                {timeline.supplier} · +{extraDays} days
+              </span>
+            </div>
+            <input
+              aria-label="Graph downstream simulation day"
+              type="range"
+              min="0"
+              max={timeline.horizon}
+              value={timeline.day}
+              onChange={(e) =>
+                changeTimeline({ day: Number(e.target.value), enabled: true })
+              }
+            />
+            <select
+              aria-label="Graph timeline scenario"
+              value={timeline.view}
+              onChange={(e) =>
+                changeTimeline({
+                  view: e.target.value as TimelineControls["view"],
+                  enabled: true,
+                })
+              }
+            >
+              <option value="baseline">Original timing</option>
+              <option value="delayed">Delay · no action</option>
+              <option value="response">Delay · with response</option>
+            </select>
+          </div>
           <div className="relationship-columns">
             <span>SUPPLIERS</span>
             <span>PRODUCT DEPENDENCIES</span>
@@ -320,7 +436,7 @@ export default function SupplyNetwork({
                     key={edge.id}
                     d={path(edge)}
                     markerEnd="url(#network-arrow)"
-                    className={`relationship-edge ${edge.kind} ${edge.risk ? "risk" : ""} ${highlightedEdges.has(edge.id) ? "lit" : "dim"}`}
+                    className={`relationship-edge ${edge.kind} ${(timeline.enabled ? cascadeNodeState(activeRun, timeline.day, { ...graph.nodes.find((n) => n.id === edge.to)!, skus: edge.skus }, timeline.supplier, timeline.view === "baseline" ? 0 : extraDays).risk : edge.risk) ? "risk" : ""} ${highlightedEdges.has(edge.id) || edge.id.startsWith("forecast-response:") ? "lit" : "dim"}`}
                   >
                     <title>
                       {edge.label} · {edge.skus.join(", ")}
@@ -332,15 +448,14 @@ export default function SupplyNetwork({
                   const match =
                     !search ||
                     (n.name + " " + n.detail).toLowerCase().includes(search);
-                  const detail =
-                    n.kind === "supplier" && isSelected && extraDays
-                      ? `${(n.name === alternativeSupplier ? 9 : supplierImpact(n.name, state, 0).rows[0].lead) + extraDays}-day lead · +${extraDays} scenario days`
-                      : n.detail;
+                  const projection = timeline.enabled ? projected(n) : null;
+                  const projectedRisk = projection?.risk ?? n.risk;
+                  const detail = projection ? projection.detail : n.detail;
                   return (
                     <g
                       key={n.id}
                       data-node="true"
-                      className={`relationship-node ${n.kind} ${n.risk ? "risk" : ""} ${isSelected ? "selected" : ""} ${highlighted.has(n.id) && match ? "lit" : "dim"}`}
+                      className={`relationship-node ${n.kind} ${projectedRisk ? "risk" : timeline.enabled ? "projected-safe" : ""} ${isSelected ? "selected" : ""} ${highlighted.has(n.id) && match ? "lit" : "dim"}`}
                       transform={`translate(${n.x} ${n.y})`}
                       role="button"
                       tabIndex={0}
@@ -395,8 +510,10 @@ export default function SupplyNetwork({
           </div>
           <div className="network-canvas-tools">
             <span>
-              {visibleNodes.length} entities · {edges.length} links · drag
-              background to pan
+              {timeline.enabled
+                ? `PROJECTED DAY ${timeline.day} · ${timeline.view.toUpperCase()}`
+                : `${visibleNodes.length} entities · ${edges.length} links`}{" "}
+              · drag background to pan
             </span>
             <div>
               <button
@@ -471,26 +588,46 @@ export default function SupplyNetwork({
               </div>
               <div className="supplier-delay-control">
                 <label>
-                  What if this supplier is delayed?
-                  <strong>+{extraDays} days</strong>
+                  {node.name === timeline.supplier
+                    ? "Active delay scenario"
+                    : "Set delay for this supplier"}
+                  <strong>
+                    +{node.name === timeline.supplier ? extraDays : 0} days
+                  </strong>
                   <input
                     aria-label="Additional supplier delay days"
                     type="range"
                     min="0"
                     max="21"
                     step="1"
-                    value={extraDays}
-                    onChange={(e) => setExtraDays(Number(e.target.value))}
+                    value={node.name === timeline.supplier ? extraDays : 0}
+                    disabled={node.name === alternativeSupplier}
+                    onChange={(e) =>
+                      changeTimeline({
+                        supplier: node.name,
+                        delayDays: Number(e.target.value),
+                      })
+                    }
                   />
                 </label>
                 <div>
-                  <span>Additional exposure during the extended lead time</span>
-                  <strong>{money(impact!.additionalLoss)}</strong>
+                  <span>Additional modeled loss by day {timeline.day}</span>
+                  <strong>
+                    {money(
+                      node.name === timeline.supplier
+                        ? Math.max(
+                            0,
+                            runs.delayed.days[timeline.day].cumulativeLoss -
+                              runs.baseline.days[timeline.day].cumulativeLoss,
+                          )
+                        : 0,
+                    )}
+                  </strong>
                 </div>
                 <p>
-                  Linear demand, unchanged stock, no additional supply and 70%
-                  lost-sale assumption. A scenario, not a forecast; it does not
-                  change live supplier records.
+                  The timeline models demand, regular inbound supply, dispatch
+                  and two-day transit. Values are hypothetical; saved supplier
+                  and inventory records are unchanged.
                 </p>
               </div>
               <Button
@@ -542,6 +679,9 @@ export default function SupplyNetwork({
               )}
             </div>
           )}
+          {timeline.enabled && (
+            <CascadeInspector run={activeRun} day={timeline.day} node={node} />
+          )}
           <div className="dependency-path">
             <h4>Trace the impact</h4>
             <p>
@@ -562,7 +702,11 @@ export default function SupplyNetwork({
             </div>
           </div>
           <div className="dependency-responses">
-            <h4>Available responses</h4>
+            <h4>Create a response from current stock</h4>
+            <p>
+              Proposals use today’s saved inventory, not forecast balances.
+              Timeline previews do not execute transfers.
+            </p>
             {related.slice(0, 3).map((o) => {
               const base = proposalFor(o, state);
               const online = state.inventory.find(
@@ -640,6 +784,13 @@ export default function SupplyNetwork({
           </div>
         </aside>
       </div>
+      <CascadeTimeline
+        controls={timeline}
+        onChange={changeTimeline}
+        baseline={runs.baseline}
+        delayed={runs.delayed}
+        response={runs.response}
+      />
     </section>
   );
 }
