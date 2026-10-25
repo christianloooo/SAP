@@ -28,3 +28,7 @@ Build with `npm run build` and run analytical/workflow tests with `npm test` fro
 All enterprise data and SAP execution are explicitly simulated. No Bloomberg, live SAP or customer tracking connection is claimed.
 
 The full application source, fonts, dependency lockfile and tests are included under [`retail-signal/`](./retail-signal/). See the [application README](./retail-signal/README.md) for architecture, assumptions, integration setup and the demo script. Generated build files and installed dependencies are excluded; rebuild them locally.
+
+## Presentation and Figma
+
+The [presentation folder](presentation/) contains the pitch decks, demo video, presenter guide, images, editable source and [Figma link](presentation/FIGMA.md).

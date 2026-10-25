@@ -22,7 +22,7 @@ Production build: `npm run build`. Serve that build with `npx vite preview --por
 - **SAP Workflow:** proposal → approval → goods issue → goods receipt. Includes plant/storage/material mappings, document draft export, stage constraints and business event history.
 - **Inventory & Supply:** shared stock balances, supplier constraints and dependent opportunities.
 - **Action Center:** event audit history across stock and review decisions.
-- **Integrations:** Google Maps setup, configured links to existing SAP apps, proposed architecture and official documentation.
+- **Integrations:** demo SAP responsibilities, proposed architecture and official documentation; no credential or tenant setup is required.
 
 ## How the three recommendations connect
 
@@ -47,21 +47,9 @@ The demo assigns specific responsibilities to existing SAP products:
 
 The exported S/4HANA JSON includes a dedicated V4 service path and illustrative UB document type, company code, organization, plants, storage and unit mappings. It is a **mapping draft, not a validated API request**. Validate supported release, document type and organizational/master data in the target tenant. It is not sent by this frontend. Do not substitute a generic Purchase Order API without checking stock transport support.
 
-In Integrations, save the exact HTTPS URL of your existing S/4HANA app, Commerce Backoffice or IBP application. These links open the existing product; they neither authenticate an API nor establish connectivity. Never enter SAP passwords or private API secrets in the browser form.
+## Demo map
 
-## Map setup
-
-OpenStreetMap with Leaflet works immediately without a Google key. Facility coordinates and plant codes are illustrative. Map alerts and routes use shared demo stock; this is not GPS shipment tracking. Source selection ranks eligible same-SKU locations by straight-line distance, with reserves and existing commitments excluded. Dashed links are proposed transfer connections, not road geometry or traffic-based travel estimates. Driving directions open separately in Google Maps.
-
-To enable **Google Maps JavaScript API**:
-
-1. Create a Google Cloud project, enable Maps JavaScript API and configure billing.
-2. Create a browser API key with website restrictions for `https://retail-signal-fiori-cv.figomyx.chatgpt.site/*` and optionally `http://localhost:4173/*` / `http://localhost:5173/*` for development.
-3. Restrict the key to the APIs it requires. Open **Integrations → Connection setup**, enter the restricted browser key and save.
-4. Optionally enter your Google map ID. The demo uses `DEMO_MAP_ID` if omitted. Reload if changing a key that is already loaded.
-5. Open Location Intelligence. A successful SDK load shows Google Maps. Loading or authentication failure falls back to OpenStreetMap with an error message.
-
-The browser Maps key is visible in requests by design and saved only in this browser's localStorage. No key is bundled or committed. Google Maps operation cannot be verified without a valid key. Connection settings persist across Reset demo; reset affects business data only.
+The map uses OpenStreetMap with Leaflet and requires no API key, billing or connection setup. Facility coordinates and plant codes are illustrative. Map alerts and routes use shared demo stock; this is not GPS shipment tracking. Source selection ranks eligible same-SKU locations by straight-line distance, with reserves and existing commitments excluded. Dashed links are proposed transfer connections, not road geometry or traffic-based travel estimates. Driving directions open separately in Google Maps.
 
 ## Scenario formulas
 
@@ -92,9 +80,8 @@ Store and online scenarios are shown separately. No cross-channel customer ident
 - `src/data.ts`: shared typed products/opportunities/inventory/audit state and seeded records.
 - `src/analytics.ts`: scenario feasibility, coverage, cost, conversion and scoring.
 - `src/planning.ts`: geolocations, source candidates, reserve commitments, transfer state machine, risk formulas, seasonal history and S/4HANA draft mapping.
-- `src/components/RetailMap.tsx`: Leaflet/OSM and optional Google Maps SDK, risk markers, proposed routes and error fallback.
-- `src/components/PlanningViews.tsx`: map workbench, loss scenarios, online fulfillment, seasonality, workflow and connection settings.
-- `src/connections.ts`: device-local non-secret connection settings and HTTPS link validation.
+- `src/components/RetailMap.tsx`: Leaflet/OSM risk markers, proposed routes and map error handling.
+- `src/components/PlanningViews.tsx`: map workbench, loss scenarios, online fulfillment, seasonality and workflow.
 - `src/services/sapAdapters.ts`: future API contracts and example bot/session event qualification helper.
 - `src/App.tsx`: application navigation, decision workflow, browser persistence, assistant and existing analytical views.
 - `src/*.test.ts`: stock conservation including transit, double-allocation prevention, invalid transitions, reserve protection, online loss calculations and seasonal results.
@@ -108,8 +95,6 @@ Demo state persists in localStorage and migrates earlier stock records by ID. Re
 - [SAP Commerce Cloud stock management](https://help.sap.com/docs/SAP_COMMERCE_CLOUD_PUBLIC_CLOUD/7e47d40a176d48ba914b50957d003804/8aef948986691014bd5bbb9f2ecfb33f.html)
 - [SAP IBP seasonality curves](https://help.sap.com/docs/SAP_INTEGRATED_BUSINESS_PLANNING/c1fb60cb1e9c49d99ada277ae57e9e6c/3a61edd4126342c1a298594a1df95578.html)
 - [SAP Customer Activity Repository](https://help.sap.com/docs/CARAB/e95c8443f589486bbfec99331049704a/95c8fc53f8149438e10000000a44176d.html)
-- [Google Maps JavaScript API loading](https://developers.google.com/maps/documentation/javascript/load-maps-js-api)
-- [Google Maps API security](https://developers.google.com/maps/api-security-best-practices)
 - [SAP Fiori analytical list page](https://experience.sap.com/fiori-design-web/analytical-list-page/)
 
 ## Three-minute demonstration
@@ -126,9 +111,9 @@ No live SAP transaction, validated demand forecast, actual recovered revenue, pr
 
 Inventory & Supply now opens with an interactive relationship graph: suppliers → product/SKU dependencies → distribution centers → stores and online fulfillment. Select a node to trace connected entities without leaking unrelated SKU dependencies through shared warehouses. Search companies or locations, filter product scope, isolate supplier risks, toggle rebalance links, pan/zoom or expand the network.
 
-The inspector shows affected products, facilities, current scenario exposure and feasible responses. A supplier-delay slider models incremental exposure during an extended lead time, with explicit linear-demand and 70% lost-sale assumptions. It does not modify supplier records. Create reserve-aware transfer proposals directly from the graph, compare the configured alternative supplier, or request a supplier review in Action Center. Proposed/approved/in-transit/received demo transfers appear as separate network links.
+The inspector shows affected products, facilities, current scenario exposure and feasible responses. The advanced timeline controls model incremental exposure during an extended lead time, with explicit linear-demand and 70% lost-sale assumptions. It does not modify supplier records. Create reserve-aware transfer proposals directly from the graph, compare the configured alternative supplier, or request a supplier review in Action Center. Proposed/approved/in-transit/received demo transfers appear as separate network links.
 
-This is a financial-terminal-style dependency explorer built from the app's shared demo data, not a Bloomberg connection or news feed. Modeled supplier and distribution links are labeled separately from actual demo transfer-order records. The graph model and dependency tracing are in `src/supplyNetwork.ts`; the interface is in `src/components/SupplyNetwork.tsx`.
+This is a light SAP Fiori-style dependency explorer built from the app's shared demo data, not a Bloomberg connection or news feed. Modeled supplier and distribution links are labeled separately from actual demo transfer-order records. The graph model and dependency tracing are in `src/supplyNetwork.ts`; the interface is in `src/components/SupplyNetwork.tsx`.
 
 ## Downstream time propagation
 
@@ -141,3 +126,72 @@ Compare cumulative estimated sales foregone against original supplier timing and
 For example, Pacific Apparel's normal modeled warehouse receipt is day 21 and downstream transit takes two further days. A 10-day disruption shifts that receipt to day 31. On day 23, original timing can cover Vancouver's daily demand while the delayed scenario still has unfulfilled demand. The graph shows that distinction and the event trail explains the arrivals and shortages behind it.
 
 Tests verify daily conservation (`physical stock + in transit + cumulative fulfilled demand = starting units + supplier receipts`), nonnegative inventory, isolation of unrelated suppliers/SKUs, delayed downstream receipts, existing commitments and comparison responses.
+
+
+## Supply intelligence: SPLC-inspired relationship analysis
+
+The network uses Bloomberg SPLC's selected-entity, upstream/downstream relationship exploration as an interaction reference, adapted to apparel operations. It uses our seeded retail records, with no Bloomberg data or Terminal connection. Reference: [Bloomberg's description of SPLC and exposure analysis](https://professional.content.cirrus.bloomberg.com/professional2023/insights/financial-services/integrated-earnings-tools-a-guide-for-equity-analysts-2/).
+
+- Six connected tiers: material inputs → suppliers → production → SKU → distribution → stores / online fulfillment. Shared cotton and trims create cross-product dependencies. Materials and production are illustrative relationships, not verified bills of materials, material stock, or capacity records. Supplier lead times already include production; no additional material or production delays are added to the simulation.
+- Select an entity, trace upstream or downstream, isolate its web, search by name/SKU, or inspect direct relationships and follow the next counterparty. Traversal carries the SKU along each path so shared facilities do not invent dependencies on unrelated suppliers.
+- Current records are the default graph view. The day slider enables projected colors; the simulator compares original timing, delay without action, and delay with response. Saved records and projections remain separate.
+- Connected exceptions show exact inventory gaps, open incoming quantities, conversion differences in percentage points, supplier lead-time warnings, online availability, pending reviews, and active workflow stages. These use the same state as Demand Intelligence, Inventory & Supply, Action Center, and SAP Workflow. Operational exceptions are demo business conditions, not live integration errors.
+- Direct relationships retain SKU scope, lead times, available rebalance quantities, transfer stages, and an explicit illustrative label where appropriate. Create a reserve-aware transfer from the inspector, or review the linked opportunity before committing.
+
+### Contextual Joule experience
+
+The persistent **Ask Joule** entry point opens a contextual assistant with evidence, calculations, assumptions, and an opportunity-review action. The network also has **Ask Joule about this network**. Its context follows the selected entity, SKU scope, supplier, graph day, demand multiplier, inbound assumptions, and response. Historical messages retain their original context label.
+
+The assistant is deterministic and has no live SAP Joule or external model connection. It handles explicit transfer quantities (including infeasible and fractional requests), respects existing commitments and reserves, and computes delay answers with the same daily cascade engine as the graph. Alternative capacity is offered only for the modeled cream-M SKU. Explanations never execute transfers or approval steps.
+
+### Focused demonstration (about 2–3 minutes)
+
+1. Open **Inventory & Supply** and expand the network. Select **Cotton yarn** to see shared material dependencies; select **Pacific Apparel Co.** to inspect its production, products and downstream facilities. Try **Upstream dependencies**, then **Upstream + downstream**.
+2. Read **Evidence behind the risk**: cream-M has 8 on hand against 80 units of seven-day demand, 17.9% fitting-room conversion against a 32% baseline, and 162 qualified out-of-stock sessions. Distinguish material assumptions from operational records.
+3. Move the graph to day 23 with Pacific's additional 10-day delay. Ask Joule about the network, then ask **Supplier delayed by 10 days**. It explains the selected scope, day-31 warehouse receipt, two-day downstream transit, and estimated exposure assumptions.
+4. Propose the **40-unit transfer** from Burnaby. In SAP Workflow, approve, issue and receive. Return to the network: Vancouver has 48 units on hand and a 32-unit remaining seven-day gap. Proposing alone never increases sellable stock.
+
+Validation: unit tests cover graph endpoint integrity, multi-tier directional isolation, commitment/receipt exceptions, explicit assistant quantities, SKU-specific alternative capacity, and shared timeline assumptions, in addition to the existing inventory conservation and cascade tests. Run `npm test` (or `node --import tsx --test src/*.test.ts` where CLI IPC sockets are restricted), then `npm run build`. Browser-check the production build with `npx vite preview --host 127.0.0.1 --port 4173`.
+
+## Material procurement and resource shortages
+
+Select **Cotton fabric** in the network to open a supply description, its prominent counterparties, editable **CAD per yard** purchase rates, modeled monthly quantities/spend, and a recent public market reference. Click a counterparty to highlight its network. Cotton shows Pacific Apparel, Denim Works and the approved Coastal alternative; the alternative has no current monthly commitment. Linen, wool and trims have their own physical units and counterparties. Diesel is measured in litres at distribution facilities; natural gas is measured in MMBtu at production suppliers.
+
+Purchase rates, consumption coefficients and monthly procurement quantities are illustrative demo assumptions, not actual invoices. Rate edits persist under `retail-procurement-rates-v1` in localStorage. They adjust the embedded baseline input cost and the incremental shock cost. No private procurement records are sent to market-data providers.
+
+### Public market retrieval
+
+The app automatically retrieves allowlisted public FRED series through `/api/market` when Inventory & Supply mounts; **Refresh market data** checks again. The same endpoint works in Vite development and `vite preview`, with a five-minute server cache and source timeouts. Sources:
+
+- [IMF global raw cotton via FRED](https://fred.stlouisfed.org/series/PCOTTINDUSDM), US cents/lb, monthly.
+- [IMF coarse wool via FRED](https://fred.stlouisfed.org/series/PWOOLCUSDM), US cents/kg, monthly; a broad proxy, not a Merino-yarn quote.
+- [EIA US on-highway diesel via FRED](https://fred.stlouisfed.org/series/GASDESW), USD/US gallon, weekly, including taxes.
+- [IMF US Henry Hub natural gas via FRED](https://fred.stlouisfed.org/series/PNGASUSUSDM), USD/MMBtu, monthly.
+
+Every observation shows its reference period, retrieval timestamp, units and linked source. A published monthly observation is not an intraday quote. On source or parser failure, retain the dated October 24, 2026 verified snapshot (or an earlier successful response) and display the failure. There is no fabricated live quote for linen or elastane/trims. Raw-commodity and US fuel benchmarks are never substituted for finished-fabric CAD purchase rates; no automatic FX, grade or unit conversion is claimed.
+
+The endpoint lives in `server/market.mjs` as a Vite plugin. A deployment serving only `dist/` must provide an equivalent same-origin endpoint for refreshing; otherwise the UI explicitly falls back to dated references. No Bloomberg feed, API credentials or commercial data entitlement is used.
+
+### Shortage simulation and Joule
+
+Choose **Simulate shortage**, select an input, enter the supply reduction, independent input-price increase, additional delivery delay, supplier pass-through and a 30/45/60-day horizon, then **Run shortage simulation**. Red graph outlines trace the affected input, production/transport relationships, SKUs and facilities. **Clear shortage scenario** removes the preview. Draft edits apply only after Run; purchase-rate changes recalculate the active economics immediately.
+
+Two explicitly separate analyses use the same resource selection:
+
+1. **New-production cost cohort:** planned units = ceil(seven-day store demand × horizon/7) per SKU. Completed units = floor(planned units × available-supply fraction); the remainder is deferred within this planning cohort. Online demand is excluded from this cost cohort. Added cost per completed garment = physical input per garment × current CAD input rate × price increase × supplier pass-through. Existing input costs are already embedded in finished-goods cost; only the uplift is added. Freight baseline is CAD 1.50/garment. Retail prices stay fixed. Gross margin = (retail price − landed unit cost)/retail price; weighted margin comparisons use the same completed SKU mix. Zero completed revenue makes the percentage undefined. Gross profit reduction = added costs + baseline gross profit on deferred units. Deferred production is not automatically treated as permanently lost sales.
+2. **Downstream stock simulation:** starting stock, reservations and existing transit remain intact. Only the hypothetical new replenishment is reduced and delayed for affected SKUs. Alternatives share the resource constraint; choosing another producer does not automatically remove a common energy shortage. The daily conservation invariant is preserved. Timeline sales foregone is a separate retail revenue estimate using the existing 70% lost-sale assumption; do not add it to the cost-cohort gross profit reduction.
+
+Physical input requirements are seeded assumptions: cotton fabric 1.15 yards/top or 1.6 yards/denim garment; linen 1.8 yards/trouser; wool 0.4 kg/crewneck; trims 0.05 kg/garment; transport fuel 0.8 litres/garment; process gas 0.12 MMBtu/garment. Shortfall maps 1:1 to reduced new production; no statistical demand, commodity-price elasticity or validated factory capacity is claimed.
+
+**Ask Joule: cost & margin impact** uses the applied resource shock, edited purchase rates, physical input quantities, public reference and active graph day. It explains exact per-garment calculations, weighted margin erosion in percentage points, deferred production, downstream risk and suggested inventory/contract reviews. It does not place purchases or execute transfers.
+
+Demo: inspect Cotton fabric and its CAD/yard costs; simulate a diesel or natural-gas shortage; inspect red paths and the unit-cost/margin table; ask Joule to explain the same result; clear the preview and demonstrate that saved stock is unchanged.
+
+
+## Demo interface cleanup
+
+The network uses the same light surfaces, blue selection accents and semantic amber/red states as the rest of the SAP-style application. Current-record and projected views share this styling, including the expanded graph, timeline controls, legend and shortage highlights.
+
+Connection setup, Google Maps credentials and configurable SAP tenant links have been removed from the demo interface. The map uses OpenStreetMap directly. Existing SAP architecture explanations and simulated transaction workflows remain available.
+
+Day and scenario selection live once, above the graph. Advanced controls retain supplier delay, demand/horizon assumptions, response selection, playback, impact charts and event explanations. The duplicate inspector delay slider and lower day/scenario selectors have been removed. Supplier dependencies are inspected through the graph; the separate duplicate supplier drilldown has been removed, while the commercial-terms table remains because it adds finished-garment costs and capacity. Material purchase rates, resource shortages, stock projections, inventory records and approval workflows remain distinct functional views.

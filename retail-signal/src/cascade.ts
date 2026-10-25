@@ -10,6 +10,7 @@ export interface CascadeConfig {
   inboundWeeks: number;
   response: CascadeResponse;
   sku: string;
+  resourceShock?: { skus: string[]; supplyPercent: number; delayDays: number };
 }
 export interface CascadeEvent {
   day: number;
@@ -83,6 +84,17 @@ export function simulateCascade(
     config.inboundWeeks > 12
   )
     throw new Error("Invalid timeline assumptions.");
+  const shock = config.resourceShock;
+  if (
+    shock &&
+    (!Number.isFinite(shock.supplyPercent) ||
+      shock.supplyPercent < 0 ||
+      shock.supplyPercent > 100 ||
+      !Number.isInteger(shock.delayDays) ||
+      shock.delayDays < 0 ||
+      shock.delayDays > 30)
+  )
+    throw new Error("Invalid resource shock.");
   const products = opportunities.filter(
     (o) => config.sku === "All products" || o.sku === config.sku,
   );
@@ -211,21 +223,28 @@ export function simulateCascade(
       transit.splice(j, 1);
     }
     for (const o of products) {
-      const primaryDay = o.lead + (impacted(o.sku) ? config.delayDays : 0);
+      const inputAffected = shock?.skus.includes(o.sku) || false;
+      const inputDelay = inputAffected ? shock!.delayDays : 0;
+      const primaryDay =
+        o.lead + (impacted(o.sku) ? config.delayDays : 0) + inputDelay;
       const alternative =
         config.response === "alternative" &&
         impacted(o.sku) &&
         o.id === "OPP-1042" &&
-        day === 9;
+        day === 9 + inputDelay;
       const primary = day === primaryDay;
       if (!primary && !alternative) continue;
       const wh = byId.get(`${o.id}-wh`)!;
-      const quantity = alternative
+      const plannedQuantity = alternative
         ? 120
         : Math.ceil(o.demand * config.inboundWeeks);
+      const quantity = inputAffected
+        ? Math.floor((plannedQuantity * shock!.supplyPercent) / 100)
+        : plannedQuantity;
+      if (quantity === 0) continue;
       wh.stock += quantity;
       supplierReceipts += quantity;
-      if (alternative) responseCost += 120 * 14.5;
+      if (alternative) responseCost += quantity * 14.5;
       events.push({
         day,
         kind: "supplier-arrival",
@@ -233,7 +252,7 @@ export function simulateCascade(
         location: wh.location,
         from: alternative ? "Coastal Textiles · Alternative" : o.supplier,
         quantity,
-        message: `${alternative ? "Alternative order" : "Assumed primary replenishment"}: ${quantity} units reach distribution on day ${day}.`,
+        message: `${alternative ? "Alternative order" : "Assumed primary replenishment"}: ${quantity} units reach distribution on day ${day}.${inputAffected ? ` Input shock: ${shock!.supplyPercent}% of planned supply, +${inputDelay} days.` : ""}`,
       });
     }
     if (day === 1) {

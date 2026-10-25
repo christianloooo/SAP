@@ -34,8 +34,6 @@ import {
   downloadJson,
 } from "../planning";
 import type { TransferStage } from "../planning";
-import type { Connections } from "../connections";
-import { saveConnections } from "../connections";
 import RetailMap from "./RetailMap";
 import type { MapPoint } from "./RetailMap";
 interface SharedProps {
@@ -87,14 +85,10 @@ export function LocationIntelligence({
   state,
   onState,
   notify,
-  connections,
   onWorkflow,
-  onConnections,
   onOpportunity,
 }: {
-  connections: Connections;
   onWorkflow: () => void;
-  onConnections: () => void;
   onOpportunity: (o: Opportunity) => void;
 } & SharedProps) {
   const [region, setRegion] = useState("West");
@@ -212,9 +206,6 @@ export function LocationIntelligence({
           transport proposal. Location pins represent sample facilities, not
           live devices.
         </MessageStrip>
-        <Button icon="settings" onClick={onConnections}>
-          Map connection
-        </Button>
       </div>
       <div className="geo-toolbar">
         <label>
@@ -285,7 +276,6 @@ export function LocationIntelligence({
         <RetailMap
           points={nodes as MapPoint[]}
           route={route}
-          connections={connections}
           onSelect={selectLocation}
         />
         <Card
@@ -912,12 +902,7 @@ export function RiskSeasonality({
     </>
   );
 }
-export function SapWorkflow({
-  state,
-  onState,
-  notify,
-  connections,
-}: SharedProps & { connections: Connections }) {
+export function SapWorkflow({ state, onState, notify }: SharedProps) {
   const [focus, setFocus] = useState("");
   const [payload, setPayload] = useState(false);
   const transfers = state.transfers;
@@ -1188,11 +1173,6 @@ export function SapWorkflow({
             <Button design="Transparent" onClick={() => setPayload(!payload)}>
               {payload ? "Hide mapping" : "Inspect SAP mapping"}
             </Button>
-            {connections.s4FioriUrl && (
-              <a href={connections.s4FioriUrl} target="_blank" rel="noreferrer">
-                Open configured S/4HANA app ↗
-              </a>
-            )}
           </div>
           {payload && (
             <div className="sap-payload">
@@ -1276,150 +1256,6 @@ export function SapWorkflow({
         </div>
       </Card>
     </>
-  );
-}
-export function ConnectionSettings({
-  connections,
-  onConnections,
-  notify,
-}: {
-  connections: Connections;
-  onConnections: (c: Connections) => void;
-  notify: (s: string) => void;
-}) {
-  const [draft, setDraft] = useState(connections);
-  const [error, setError] = useState("");
-  const change = (key: keyof Connections, value: string) =>
-    setDraft((c) => ({ ...c, [key]: value.trim() }));
-  return (
-    <Card
-      title="Connection setup"
-      description="Demo mode works without credentials. Configure a restricted Google browser key and links to your existing SAP apps."
-    >
-      <div className="connection-settings">
-        <div className="connection-section">
-          <h3>Google Maps JavaScript API</h3>
-          <p>
-            Without a key, the map uses OpenStreetMap. A valid browser key loads
-            Google Maps with clickable risk markers and proposed transfer links.
-            Google billing, API enablement and website restrictions are
-            configured in your Google Cloud project.
-          </p>
-          <label>
-            Browser API key
-            <Input
-              accessibleName="Google Maps browser key"
-              type="Password"
-              placeholder="Restricted Maps JavaScript API key"
-              value={draft.googleMapsKey}
-              onInput={(e) => change("googleMapsKey", e.target.value)}
-            />
-          </label>
-          <label>
-            Google map ID (optional for demo)
-            <Input
-              accessibleName="Google map ID"
-              placeholder="Uses DEMO_MAP_ID when empty"
-              value={draft.googleMapId}
-              onInput={(e) => change("googleMapId", e.target.value)}
-            />
-          </label>
-          <p className="fine-print">
-            The Maps browser key is visible in browser requests by design and
-            stored on this device. Restrict it to Maps JavaScript API and
-            https://retail-signal-fiori-cv.figomyx.chatgpt.site/* (plus
-            localhost during development). After changing an already loaded key,
-            reload the page.
-          </p>
-          <a
-            href="https://developers.google.com/maps/documentation/javascript/get-api-key"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Google Maps setup documentation ↗
-          </a>
-        </div>
-        <div className="connection-section">
-          <h3>Your SAP application links</h3>
-          <p>
-            Open existing products from the same workflow. These links do not
-            authenticate API access or verify a tenant connection. Use the exact
-            application URL from your SAP launchpad.
-          </p>
-          <label>
-            S/4HANA stock transport / purchasing app URL
-            <Input
-              accessibleName="S/4HANA application URL"
-              placeholder="https://your-tenant…"
-              value={draft.s4FioriUrl}
-              onInput={(e) => change("s4FioriUrl", e.target.value)}
-            />
-          </label>
-          <label>
-            SAP Commerce Cloud Backoffice URL
-            <Input
-              accessibleName="Commerce application URL"
-              placeholder="https://your-commerce…"
-              value={draft.commerceUrl}
-              onInput={(e) => change("commerceUrl", e.target.value)}
-            />
-          </label>
-          <label>
-            SAP IBP planning application URL
-            <Input
-              accessibleName="IBP application URL"
-              placeholder="https://your-ibp…"
-              value={draft.ibpUrl}
-              onInput={(e) => change("ibpUrl", e.target.value)}
-            />
-          </label>
-          <p className="fine-print">
-            No SAP passwords or API secrets belong in this browser form. A live
-            Integration Suite / BTP backend must manage authentication, CSRF,
-            authorization and tenant-specific mappings.
-          </p>
-        </div>
-      </div>
-      {error && (
-        <div className="connection-error" role="alert">
-          {error}
-        </div>
-      )}
-      <div className="connection-actions">
-        <Button
-          design="Emphasized"
-          onClick={() => {
-            try {
-              saveConnections(draft);
-              onConnections(draft);
-              setError("");
-              notify(
-                "Connection settings saved on this device. SAP links are configured, not API-connected.",
-              );
-            } catch (e) {
-              setError((e as Error).message);
-            }
-          }}
-        >
-          Save connection settings
-        </Button>
-        {connections.s4FioriUrl && (
-          <a href={connections.s4FioriUrl} target="_blank" rel="noreferrer">
-            S/4HANA ↗
-          </a>
-        )}
-        {connections.commerceUrl && (
-          <a href={connections.commerceUrl} target="_blank" rel="noreferrer">
-            Commerce Backoffice ↗
-          </a>
-        )}
-        {connections.ibpUrl && (
-          <a href={connections.ibpUrl} target="_blank" rel="noreferrer">
-            IBP Planning ↗
-          </a>
-        )}
-      </div>
-    </Card>
   );
 }
 export function OpportunityExposure({

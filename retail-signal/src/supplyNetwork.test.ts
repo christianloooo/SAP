@@ -57,3 +57,50 @@ test("network responses respect stock already committed to proposals", () => {
     ),
   );
 });
+
+test("directional tracing follows multiple tiers without leaking another SKU via shared cotton or distribution", async () => {
+  const { focusNetwork } = await import("./supplyNetwork");
+  const graph = buildSupplyGraph(freshState());
+  const upstream = focusNetwork(
+    graph,
+    "product:ERT-CRM-M",
+    "All products",
+    "upstream",
+  );
+  assert.ok(upstream.nodes.some((n) => n.id === "material:cotton"));
+  assert.ok(
+    upstream.nodes.some((n) => n.id === "production:Pacific Apparel Co."),
+  );
+  assert.ok(!upstream.nodes.some((n) => n.id === "supplier:Denim Works"));
+  assert.ok(!upstream.nodes.some((n) => n.kind === "warehouse"));
+  const downstream = focusNetwork(
+    graph,
+    "supplier:Pacific Apparel Co.",
+    "All products",
+    "downstream",
+  );
+  assert.ok(downstream.nodes.some((n) => n.kind === "online"));
+  assert.ok(!downstream.nodes.some((n) => n.kind === "material"));
+  assert.ok(!downstream.nodes.some((n) => n.id === "product:CSJ-IND-30"));
+});
+
+test("network exceptions distinguish committed proposals from received inventory", async () => {
+  const { networkIssues } = await import("./supplyNetwork");
+  const { advanceTransfer } = await import("./planning");
+  let s = freshState();
+  const skus = new Set([opportunities[0].sku]);
+  s = proposeTransfer(s, "OPP-1042-source", "OPP-1042-dest", 40);
+  assert.match(
+    networkIssues(s, skus).find((i) => i.id === "gap:OPP-1042")!.evidence,
+    /8 on hand.*40 units in open/,
+  );
+  const id = s.transfers[0].id;
+  s = advanceTransfer(s, id, "Approved");
+  s = advanceTransfer(s, id, "In transit");
+  s = advanceTransfer(s, id, "Received");
+  assert.match(
+    networkIssues(s, skus).find((i) => i.id === "gap:OPP-1042")!.title,
+    /32 units uncovered/,
+  );
+  assert.ok(!networkIssues(s, skus).some((i) => i.source === "SAP Workflow"));
+});

@@ -1,0 +1,1365 @@
+{
+  "slides": [
+    {
+      "n": 1,
+      "title": "Demand shifts before retailers can respond",
+      "eyebrow": "PROBLEM STATEMENT",
+      "type": "hero",
+      "seconds": 20,
+      "lead": "SAP Retail Signal",
+      "body": "One product connects early customer intent with a decision the business can carry out.",
+      "big": "The response gap",
+      "sub": "Apparel merchandisers see transactions. They need to see missed demand and act while it still matters.",
+      "foot": "Plus One Braincell · Team 463980 · Product+ 2026 · Competition concept",
+      "notes": "- 20 seconds. Open with the case: how can SAP close the gap between a demand shift and a business response?\n- Focus on apparel merchandise planners. Sales record completed purchases; missed interest can disappear before the next planning cycle.\n- Our answer is one product, SAP Retail Signal, with three connected parts.\n- Sources: Product+ 2026 Case Package, pp. 3–5; Launchpad report, pp. 2–4."
+    },
+    {
+      "n": 2,
+      "title": "SAP already supports the retailer’s core business",
+      "eyebrow": "COMPANY OVERVIEW",
+      "type": "stats",
+      "seconds": 10,
+      "stats": [
+        [
+          "440,000+",
+          "enterprise customers",
+          "Case-package baseline"
+        ],
+        [
+          "180",
+          "countries",
+          "Case-package baseline"
+        ],
+        [
+          "14,000+",
+          "retail customers",
+          "SAP Future of Retail"
+        ]
+      ],
+      "body": "Retail Signal would extend existing transaction, commerce and planning systems with early demand evidence and a shared response workflow.",
+      "foot": "Customer counts describe SAP’s broader footprint, not the addressable apparel market.",
+      "notes": "- 12 seconds. SAP spans finance, procurement, supply chain and customer experience. Existing customers offer an initial route to market.\n- These counts are different scopes; they cannot be added together.\n- Sources: supplied case, p. 3; https://www.sap.com/engage/future-of-retail.html (accessed 25 Oct 2026)."
+    },
+    {
+      "n": 3,
+      "title": "Three gaps delay the same decision",
+      "eyebrow": "KEY ISSUES",
+      "type": "rows",
+      "seconds": 20,
+      "rows": [
+        [
+          "01",
+          "Interest is invisible",
+          "Store teams see what sold, but not which sizes were tried and left behind."
+        ],
+        [
+          "02",
+          "Unmet online demand disappears",
+          "Searching an unavailable size can end without a sale or a restock request."
+        ],
+        [
+          "03",
+          "Supply risk arrives without context",
+          "A price or delivery change needs to be traced to affected products, stores and margins."
+        ]
+      ],
+      "foot": "Case-based problem hypothesis. Validate the frequency and cost through planner interviews and a pilot.",
+      "notes": "- 20 seconds. Today’s workflow can involve sales reports, separate website analytics and supplier emails before a planner reconciles stock.\n- The case establishes fragmented data and time pressure; it does not quantify the delay. We will measure that baseline.\n- Sources: case, p. 4; Launchpad, recommendations 1–3."
+    },
+    {
+      "n": 4,
+      "title": "Meet Bob, before Retail Signal",
+      "eyebrow": "PART 1 · CUSTOMER STORY",
+      "type": "bob",
+      "seconds": 25,
+      "lead": "Bob",
+      "sub": "Regional merchandise planner\nFictional 100-store apparel retailer",
+      "rows": [
+        [
+          "9:00",
+          "Sales look ordinary",
+          "The cream medium top has only 8 units left in Vancouver."
+        ],
+        [
+          "10:30",
+          "The signals live elsewhere",
+          "240 try-ons, 43 purchases and 162 out-of-stock sessions are not in his sales report."
+        ],
+        [
+          "Later",
+          "The replenishment misses the window",
+          "The primary supplier needs 21 days; Bob still has to locate transferable stock."
+        ]
+      ],
+      "foot": "Bob is a fictional persona. Product, supplier and location figures are seeded demo records.",
+      "notes": "- 25 seconds. Bob is accountable for availability, but he must reconstruct the situation across teams.\n- This is a persona scenario, not a customer interview or measured time study.\n- The 80-unit seven-day demand scenario leaves a 72-unit gap after 8 on hand. Low conversion does not establish a fit problem.\n- Sources: current Retail Signal prototype; Launchpad report, pp. 3–4."
+    },
+    {
+      "n": 5,
+      "title": "One product, three connected parts",
+      "eyebrow": "RECOMMENDATION DEMO · 90 SECONDS",
+      "type": "video",
+      "seconds": 90,
+      "lead": "SAP Retail Signal",
+      "rows": [
+        [
+          "1",
+          "Smart Fitting-Room Demand Signals",
+          "Reveal interest before purchase."
+        ],
+        [
+          "2",
+          "Out-of-Stock Demand Tracker",
+          "Qualify demand for unavailable sizes."
+        ],
+        [
+          "3",
+          "Supply-Chain Risk and Response View",
+          "Explain exposure and compare a response."
+        ]
+      ],
+      "foot": "Working website with seeded records. Joule-inspired explanations and SAP execution are simulated.",
+      "notes": "- 90 seconds. Play the recommendation walkthrough on this slide, or open the supplied MP4.\n- The video demonstrates all three parts of one product. It uses real captures of our working website.\n- Part 1: compare 240 try-ons with 43 purchases, then investigate availability, fit or price instead of guessing the cause.\n- Part 2: 162 qualified out-of-stock sessions × assumed 15% conversion, rounded down, gives 24 scenario units for Online West. These are not confirmed orders.\n- Part 3: inspect material rates, apply a gas shortage and ask the assistant to explain added costs and margin effects. Then compare immediate stock transfer with later supplier replenishment.\n- No live RFID, retailer analytics, SAP tenant or SAP Joule service is connected."
+    },
+    {
+      "n": 6,
+      "title": "Hardware partners and regional delivery",
+      "eyebrow": "PART 1 · PROPOSED PARTNER MODEL",
+      "type": "partner",
+      "seconds": 20,
+      "lead": "Build with specialist hardware providers",
+      "body": "Zebra: fixed RFID readers and antennas\nAvery Dennison: garment RFID tags and inlays",
+      "table": [
+        [
+          "Region",
+          "Proposed distribution lead",
+          "Deployment"
+        ],
+        [
+          "North America",
+          "Ingram Micro",
+          "Local RFID integrators"
+        ],
+        [
+          "Latin America",
+          "Ingram Micro",
+          "Country-qualified integrators"
+        ],
+        [
+          "Europe",
+          "TD SYNNEX",
+          "Local RFID integrators"
+        ],
+        [
+          "Asia Pacific / Japan",
+          "TD SYNNEX",
+          "Local RFID integrators"
+        ],
+        [
+          "India / Middle East / Africa",
+          "Redington",
+          "Local RFID integrators"
+        ]
+      ],
+      "foot": "Proposed partners, not signed agreements. Availability, product authorization and RF certification require country-level checks.",
+      "notes": "- 20 seconds. Recommendation 1 needs specialist hardware rather than SAP manufacturing its own readers. Use Zebra readers, Avery Dennison tags and regional distribution.\n- Radio-frequency identification, or RFID, identifies tagged garments using radio waves. Room-zone calibration is essential to avoid counting adjacent racks.\n- Start with already tagged assortments; tag economics for new assortments are excluded from the base quote and must be priced.\n- Capability sources: https://www.zebra.com/us/en/products/rfid/rfid-readers.html ; https://rfid.averydennison.com/en/home/industry-segments/retail/apparel-and-fashion.html ; https://careers.ingrammicro.com/en/locations/ ; https://www.tdsynnex.com/us/en/where-we-are.html ; https://redingtongroup.com/about-us/global-presence/ . All accessed 25 Oct 2026."
+    },
+    {
+      "n": 7,
+      "title": "Meet Bob, with a response he can explain",
+      "eyebrow": "PART 2 · CUSTOMER STORY",
+      "type": "after",
+      "seconds": 20,
+      "big": "10% → 60%",
+      "sub": "Seven-day coverage in the transfer scenario",
+      "rows": [
+        [
+          "See",
+          "One evidence trail",
+          "Try-ons, online interest, available inventory and supplier lead time share product and location context."
+        ],
+        [
+          "Decide",
+          "Compare 40 units at CAD 60 transfer cost",
+          "Protect Burnaby’s 36-unit reserve; the nine-day alternative is too late for this seven-day window."
+        ],
+        [
+          "Act",
+          "Approve, dispatch and confirm receipt",
+          "Only goods receipt makes the 40 transferred units sellable in Vancouver."
+        ]
+      ],
+      "foot": "Simulation: 8 current units + 40 transfer units = 48 of 80 scenario units covered. Sales recovery is unproven.",
+      "notes": "- 20 seconds. Bob can evaluate a 40-unit transfer at a modeled cost of 60 dollars.\n- Coverage rises from 8 of 80 to 48 of 80. Thirty-two units remain uncovered: the tool makes the residual problem visible.\n- Approval does not create inventory. Goods issue moves stock into transit; goods receipt adds destination sellable stock.\n- Source: prototype seeded transfer scenario, ERT-CRM-M."
+    },
+    {
+      "n": 8,
+      "title": "The first buyers are SAP-connected apparel chains",
+      "eyebrow": "MARKET RESEARCH",
+      "type": "market",
+      "seconds": 20,
+      "body": "Primary users: merchandise and inventory planners\nEconomic buyer: COO / merchandising leader, with CFO approval\nFirst segment: 50–250 stores, online sales and reliable SKU-level stock",
+      "stats": [
+        [
+          "CAD 1.40B",
+          "Illustrative TAM",
+          "4,000 eligible chains × CAD 350k/year"
+        ],
+        [
+          "CAD 175M",
+          "Illustrative SAM",
+          "500 initial serviceable chains × CAD 350k/year"
+        ],
+        [
+          "CAD 52.5M",
+          "Year-3 ending ARR target",
+          "150 customers × CAD 350k/year"
+        ]
+      ],
+      "foot": "Account counts and contract values are planning assumptions, not verified market counts. 150 customers is 30% of the modeled SAM.",
+      "notes": "- 20 seconds. Total addressable market, TAM, is modeled annual software spend. SAM narrows that to chains we could initially serve. SOM is the share we aim to win; 150 accounts is an ambitious scenario, not a forecast.\n- We use a 100-store reference contract. A real account list and willingness-to-pay interviews are needed before funding scale.\n- Context: the Launchpad cites US$957B fashion e-commerce in 2026; Shopify corroborates a US$957.31B Statista projection. Consumer sales are not software TAM.\n- Source: https://www.shopify.com/uk/enterprise/blog/ecommerce-fashion-industry ; SAP retail footprint source on slide 2."
+    },
+    {
+      "n": 9,
+      "title": "Competitors validate the need; integration decides the fit",
+      "eyebrow": "COMPETITOR ANALYSIS",
+      "type": "table",
+      "seconds": 20,
+      "table": [
+        [
+          "Alternative",
+          "Established strength",
+          "Retail Signal’s proposed fit"
+        ],
+        [
+          "Sensormatic TrueVUE",
+          "RFID inventory and fitting-room insight",
+          "Use equivalent event inputs in a wider decision workflow."
+        ],
+        [
+          "Oracle Retail",
+          "Connected merchandising, inventory and AI planning",
+          "Focus on retailers whose execution already runs on SAP."
+        ],
+        [
+          "Blue Yonder",
+          "Retail planning, scenarios and network intelligence",
+          "Bring early intent to a concise SAP approval workflow."
+        ],
+        [
+          "Existing SAP IBP / CAR",
+          "Demand planning and retail transaction context",
+          "Extend these products; reuse their planning and data services."
+        ]
+      ],
+      "foot": "Qualitative positioning from public vendor descriptions. Competitors are commercial offerings; Retail Signal is a prototype.",
+      "notes": "- 20 seconds. RFID fitting-room insight and AI inventory planning already exist. We are not claiming to invent these categories or to have features competitors lack.\n- The case for Retail Signal is a focused experience joining early intent with SAP operational decisions. If an existing SAP deployment already solves the workflow, extend it instead of selling duplicate software.\n- Sources: https://www.sensormatic.com/de_de/TrueVUE-Inventory-Intel/TrueVUE-Fitting-Room ; https://www.oracle.com/retail/ ; https://blueyonder.com/solutions/retail-planning ; https://www.sap.com/products/scm/integrated-business-planning.html ; https://www.sap.com/products/crm/customer-activity-repository.html ."
+    },
+    {
+      "n": 10,
+      "title": "SAP’s ecosystem can shorten the path to action",
+      "eyebrow": "COMPETITIVE ADVANTAGE",
+      "type": "ecosystem",
+      "seconds": 20,
+      "rows": [
+        [
+          "Connected execution",
+          "S/4HANA holds stock movements and purchasing. Commerce Cloud contributes online context. IBP supports planning."
+        ],
+        [
+          "Consistent business context",
+          "Authorized product, location, cost and supplier data can make recommendations more relevant to the retailer."
+        ],
+        [
+          "Learning with permission",
+          "SAP’s large client base creates a potential learning advantage, subject to contracts, consent and evaluation. More data alone does not prove better accuracy."
+        ]
+      ],
+      "foot": "Proposed architecture. No live SAP integration or cross-customer training is present in this demo.",
+      "notes": "- 20 seconds. Like an ecosystem of compatible devices, SAP’s appeal is that another tool can work with systems the retailer already uses. This still requires integration work and licensing.\n- Our data advantage is business context, not unrestricted access to every customer’s records. Customer data use for AI improvement is governed by service agreements; new development can require additional consent. External model providers do not receive training rights by default.\n- Sources: SAP Integration Suite https://www.sap.com/products/technology-platform/integration-suite.html ; SAP responsible AI https://www.sap.com/products/artificial-intelligence/ai-ethics.html ; https://learning.sap.com/courses/building-confidence-in-ai-with-sap/does-ai-train-on-my-data ."
+    },
+    {
+      "n": 11,
+      "title": "SWOT: a credible extension with execution risk",
+      "eyebrow": "SWOT ANALYSIS",
+      "type": "swot",
+      "seconds": 10,
+      "quadrants": [
+        [
+          "STRENGTHS",
+          "Existing SAP workflows\nOne evidence-to-action experience"
+        ],
+        [
+          "WEAKNESSES",
+          "Prototype, not production\nHardware and data-quality dependence"
+        ],
+        [
+          "OPPORTUNITIES",
+          "Sell into SAP retail relationships\nProve value on unavailable sizes"
+        ],
+        [
+          "THREATS",
+          "Strong planning and RFID vendors\nBudget pressure and long sales cycles"
+        ]
+      ],
+      "foot": "Strategic assessment by Plus One Braincell; pilot evidence is needed to validate the opportunity.",
+      "notes": "- 12 seconds. Our strongest asset is the fit with SAP execution; our weakest point is that commercial value and integrations remain unproven.\n- Competition, integration effort and adoption should shape the pilot, not be hidden behind an AI claim."
+    },
+    {
+      "n": 12,
+      "title": "Dependencies come before automation",
+      "eyebrow": "DEPENDENCIES",
+      "type": "table",
+      "seconds": 15,
+      "table": [
+        [
+          "Dependency",
+          "Required before pilot actions",
+          "Owner"
+        ],
+        [
+          "Reliable shared records",
+          "Match SKU / size / location; reconcile stock and timestamps",
+          "Retail IT + data lead"
+        ],
+        [
+          "Safe SAP integration",
+          "Tenant sandbox, supported interfaces, roles and audit trail",
+          "SAP / retailer integration team"
+        ],
+        [
+          "Qualified demand events",
+          "RFID zone tests; session deduplication; bot filtering",
+          "Hardware + commerce teams"
+        ],
+        [
+          "Commercial and privacy terms",
+          "Partner quotes, data agreement and retention policy",
+          "Procurement + privacy lead"
+        ]
+      ],
+      "foot": "Proposed SAP roles: CAR = transaction context; S/4HANA = execution; Commerce = online channel; IBP = planning.",
+      "notes": "- 15 seconds. The most important dependency is a common product and location identifier. Without it, the tool may recommend stock the business cannot actually move.\n- BTP means Business Technology Platform; Integration Suite connects systems through controlled interfaces, or APIs. A production service needs authentication, monitoring, retry safety and tenant-specific field mapping.\n- Sources: SAP Integration Suite, CAR and IBP official product documentation, cited in appendix."
+    },
+    {
+      "n": 13,
+      "title": "Three risks could stop the pilot",
+      "eyebrow": "RISKS AND MITIGATIONS",
+      "type": "risk",
+      "seconds": 20,
+      "table": [
+        [
+          "Risk",
+          "Mitigation",
+          "Stop / review trigger"
+        ],
+        [
+          "Wrong demand or stale stock",
+          "Confidence thresholds; fresh-stock check; planner approval; reconcile receipts",
+          "Stock mismatch >2% or repeated bad transfers"
+        ],
+        [
+          "Fitting-room privacy and trust",
+          "Garment events only; no cameras or identities; aggregate; short retention",
+          "Unresolved privacy concern or missing approval"
+        ],
+        [
+          "Low adoption or weak economics",
+          "Planner co-design; top exceptions only; matched comparison; capped pilot",
+          "No response-time improvement or no path to positive value"
+        ]
+      ],
+      "foot": "Risk owners: retail operations, privacy lead and CFO respectively. Thresholds are proposed pilot gates.",
+      "notes": "- 20 seconds. These are the three biggest risks: bad decisions from weak data, loss of shopper trust, and a product that does not repay its cost.\n- Human approval and transaction reconciliation prevent an explanation from becoming an unverified stock movement.\n- Privacy controls require a local legal review; proposed retention is seven days for raw garment events and 90 days for aggregates, subject to that review."
+    },
+    {
+      "n": 14,
+      "title": "Decision rights resolve competing stakeholder needs",
+      "eyebrow": "STAKEHOLDER ALIGNMENT",
+      "type": "stake",
+      "seconds": 20,
+      "table": [
+        [
+          "Stakeholder",
+          "What they need",
+          "Decision / concession"
+        ],
+        [
+          "Bob + store managers",
+          "Fast action without draining another store",
+          "Planner proposes; source manager protects reserve."
+        ],
+        [
+          "CFO / COO",
+          "Value, margin and spending control",
+          "CFO owns pilot gate and spending limits."
+        ],
+        [
+          "Retail IT + SAP product team",
+          "Secure integration and a clear product boundary",
+          "Reuse IBP / CAR; IT can block stale or invalid data."
+        ],
+        [
+          "Privacy + shoppers",
+          "No personal surveillance",
+          "Privacy lead approves collection and retention."
+        ],
+        [
+          "Hardware / service partners",
+          "Commercial incentive and support clarity",
+          "Partners earn hardware and deployment revenue."
+        ]
+      ],
+      "foot": "Escalation: margin or reserve conflict → retail operations leader; data/privacy failure → pause affected actions.",
+      "notes": "- 20 seconds. Adoption requires an explicit bargain. Bob gets speed, while the source store keeps a reserve and the CFO keeps spending authority.\n- Marketing can promote availability improvements only after results are measured. Procurement validates supplier alternatives; Joule cannot approve a new vendor.\n- SAP owns the software roadmap; partners own installation and first-line device support."
+    },
+    {
+      "n": 15,
+      "title": "Trade-offs are deliberate",
+      "eyebrow": "TRADE-OFFS AND LIMITATIONS",
+      "type": "trade",
+      "seconds": 15,
+      "pairs": [
+        [
+          "Human approval",
+          "Slower than full automation; safer while evidence is uncertain."
+        ],
+        [
+          "Apparel and existing SAP users first",
+          "Narrower reach; lower initial workflow and data complexity."
+        ],
+        [
+          "RFID in selected stores",
+          "Less coverage; avoids outfitting every store before value is proven."
+        ],
+        [
+          "Evidence before prediction",
+          "The demo explains scenarios; live news prediction and autonomous procurement remain future work."
+        ]
+      ],
+      "foot": "Try-ons and searches indicate interest, not guaranteed purchases or the cause of non-purchase.",
+      "notes": "- 15 seconds. We prioritize online demand and shared stock first because they avoid hardware lead time. Then validate RFID in selected stores and introduce supply-cost scenarios.\n- Baseline demo rates and material-consumption assumptions are illustrative. Public commodity benchmarks are not the retailer’s contract prices.\n- Existing stock does not vanish when new production is constrained."
+    },
+    {
+      "n": 16,
+      "title": "A 12-week pilot earns the right to scale",
+      "eyebrow": "IMPLEMENTATION TIMELINE",
+      "type": "timeline",
+      "seconds": 20,
+      "phases": [
+        [
+          "WEEKS 1–2",
+          "Establish trust",
+          "5 planner interviews; baseline workflow; privacy and stock mapping."
+        ],
+        [
+          "WEEKS 3–5",
+          "Connect demand",
+          "Online signals and stock read-only; shadow recommendations; hardware zone tests."
+        ],
+        [
+          "WEEKS 6–8",
+          "Approve limited actions",
+          "10 stores; controlled transfers; RFID evidence; reconcile all receipts."
+        ],
+        [
+          "WEEKS 9–12",
+          "Measure and decide",
+          "Matched-store evaluation; cost scenarios; CFO / COO scale or stop gate."
+        ]
+      ],
+      "foot": "Resources: SAP product lead, 2 integration engineers, full-stack engineer, analyst, UX/change lead; retail and partner counterparts.",
+      "notes": "- 20 seconds. Start with interviews and a two-week baseline, then shadow mode: calculate recommendations without executing them.\n- Hardware qualification can proceed alongside digital integration. If devices are delayed, digital and supply workflows continue; RFID claims wait.\n- Scale to a 100-store customer only after week 12. Wider commercial rollout takes additional quarters, separate from pilot completion."
+    },
+    {
+      "n": 17,
+      "title": "Success means a faster, verified response",
+      "eyebrow": "PILOT KPIs",
+      "type": "kpi",
+      "seconds": 18,
+      "stats": [
+        [
+          "−50%",
+          "median response time",
+          "Qualified signal → approved action"
+        ],
+        [
+          "≥98%",
+          "inventory reconciliation",
+          "Physical / recorded stock agreement"
+        ],
+        [
+          "≥70%",
+          "weekly planner use",
+          "Eligible pilot planners"
+        ]
+      ],
+      "body": "Business gate: positive incremental contribution after transfer costs and returns, with a credible cash payback within 24 months at the negotiated price.",
+      "foot": "Targets, not achieved results. Compare pilot with matched stores and pre-pilot baseline; report uncertainty.",
+      "notes": "- 18 seconds. Measure both median and 90th-percentile response time so an average cannot hide slow exceptions.\n- Track signal freshness, recommendation acceptance with reasons, stockout sessions, realized contribution and shopper complaints.\n- CFO owns financial verification; analyst owns matched-store measurement; operations owns stock accuracy. If the pilot is underpowered, extend measurement rather than claim causal uplift."
+    },
+    {
+      "n": 18,
+      "title": "One subscription; partners earn the hardware work",
+      "eyebrow": "FINANCIALS · PRICING AND REVENUE SPLIT",
+      "type": "pricing",
+      "seconds": 20,
+      "big": "CAD 350k / year",
+      "sub": "Reference customer: 100 stores\nCAD 50k platform + CAD 3k per store",
+      "table": [
+        [
+          "Illustrative charge",
+          "Recipient / split"
+        ],
+        [
+          "CAD 8k per equipped store",
+          "OEM / tag supplier 62.5% · distributor 12.5% · installer 25%"
+        ],
+        [
+          "CAD 75k customer onboarding",
+          "Delivery partner 80% · SAP coordination fee 20%"
+        ],
+        [
+          "Annual product subscription",
+          "SAP 100%; partner hardware invoiced separately"
+        ]
+      ],
+      "foot": "Proposed commercial model; quotes and accounting treatment unconfirmed. Existing tagged merchandise assumed; taxes and new tag programs excluded.",
+      "notes": "- 20 seconds. The reference price covers the one product with all three parts. RFID is activated only at equipped stores.\n- Of each 8,000-dollar hardware and installation invoice, 5,000 goes to equipment/tag suppliers, 1,000 to distribution and 2,000 to deployment. SAP earns no hardware margin in this model.\n- Of 75,000 onboarding, SAP retains 15,000 and the delivery partner receives 60,000. All are assumptions, not negotiated terms."
+    },
+    {
+      "n": 19,
+      "title": "Retailer value must clear the cash-only test",
+      "eyebrow": "FINANCIALS · REFERENCE CUSTOMER",
+      "type": "roi",
+      "seconds": 25,
+      "table": [
+        [
+          "Annual value / cost",
+          "CAD",
+          "Basis"
+        ],
+        [
+          "Recovered-sales contribution",
+          "450,000",
+          "1% of CAD 100M sales × 45% contribution margin"
+        ],
+        [
+          "Planner / store capacity freed",
+          "364,000",
+          "2 h/store/week × 100 × 52 × CAD 35"
+        ],
+        [
+          "Subscription",
+          "(350,000)",
+          "100-store reference price"
+        ],
+        [
+          "Upfront deployment",
+          "235,000",
+          "20 RFID stores × CAD 8k + CAD 75k onboarding"
+        ]
+      ],
+      "stats": [
+        [
+          "6.1 months",
+          "economic payback",
+          "Includes value of time freed"
+        ],
+        [
+          "28.2 months",
+          "cash-only payback",
+          "Excludes time unless cash is saved"
+        ]
+      ],
+      "foot": "Illustrative steady-state annual benefits; not measured. Base cash-only payback misses the 24-month scale gate.",
+      "notes": "- 25 seconds. Separate productive capacity from cash savings. One percent incremental sales at a 45 percent contribution margin yields 450,000 dollars; time freed is worth 364,000 only if productively redeployed.\n- Economic net annual value is 464,000, but cash-only net is 100,000. Upfront 235,000 means 6.1-month economic payback versus 28.2 months cash-only.\n- The base model fails our 24-month cash gate. We must prove at least 1.04% uplift, lower price/cost, or documented cash savings before scale. This is why the pilot is needed."
+    },
+    {
+      "n": 20,
+      "title": "SAP’s base scenario reaches CAD 38.1M in year 3",
+      "eyebrow": "FINANCIALS · SAP PRODUCT SCENARIO",
+      "type": "financial",
+      "seconds": 25,
+      "table": [
+        [
+          "CAD millions, unless noted",
+          "Year 1",
+          "Year 2",
+          "Year 3"
+        ],
+        [
+          "Ending customers",
+          "20",
+          "60",
+          "150"
+        ],
+        [
+          "Average active customers",
+          "10",
+          "40",
+          "105"
+        ],
+        [
+          "Subscription revenue",
+          "3.50",
+          "14.00",
+          "36.75"
+        ],
+        [
+          "Net onboarding fee",
+          "0.30",
+          "0.60",
+          "1.35"
+        ],
+        [
+          "Total modeled SAP revenue",
+          "3.80",
+          "14.60",
+          "38.10"
+        ],
+        [
+          "Hosting / support",
+          "(0.88)",
+          "(3.50)",
+          "(9.19)"
+        ],
+        [
+          "Product / sales / operations",
+          "(5.00)",
+          "(6.00)",
+          "(8.00)"
+        ],
+        [
+          "Operating contribution",
+          "(2.08)",
+          "5.10",
+          "20.91"
+        ]
+      ],
+      "foot": "Illustrative, not SAP guidance. Midyear customer wins, no churn, CAD 350k/customer/year; hardware pass-through excluded.",
+      "notes": "- 25 seconds. Annual recurring revenue at the end of year 3 is 52.5 million; recognized year-3 revenue is 38.1 million because new customers arrive throughout the year.\n- This is a product contribution model before tax, financing, corporate allocations and working capital. Costs include customer acquisition and the proposed pilot in year-one spending.\n- Zero churn and 150 wins are optimistic assumptions. Renewal-only break-even is approximately 23 full-year customers at the year-two fixed cost. Sensitivities are in the appendix."
+    },
+    {
+      "n": 21,
+      "title": "Earlier evidence is useful only when teams can act",
+      "eyebrow": "VALUE PROPOSITION",
+      "type": "value",
+      "seconds": 9,
+      "rows": [
+        [
+          "For Bob",
+          "A prioritized decision with evidence, alternatives and a visible owner."
+        ],
+        [
+          "For the retailer",
+          "Better availability and margin discipline, measured against the cost of responding."
+        ],
+        [
+          "For shoppers",
+          "A better chance of finding the right size, without personal fitting-room surveillance."
+        ],
+        [
+          "For SAP",
+          "A focused extension of existing retail workflows and recurring software revenue."
+        ]
+      ],
+      "foot": "One SAP Retail Signal subscription. Shared evidence, shared inventory context and a traceable response.",
+      "notes": "- 12 seconds. The value is the shorter gap between a qualified signal and a verified business response.\n- Better business context can make Joule more useful, while people retain accountability for consequential actions."
+    },
+    {
+      "n": 22,
+      "title": "A pilot decision, with a clear scale gate",
+      "eyebrow": "CALL TO ACTION",
+      "type": "cta",
+      "seconds": 18,
+      "big": "CAD 250k",
+      "sub": "SAP-funded pilot proposal\n12 weeks · 10 stores · one apparel design partner",
+      "body": "Approve a capped pilot, name the retail sponsor and agree access to a sandbox.\n\nScale when response time improves, stock reconciles and cash payback meets the 24-month gate.",
+      "foot": "Pilot budget included in year-one operating spend. Funding, customer participation and partners remain proposed.",
+      "notes": "- 18 seconds. Our ask is a capped 250,000-dollar pilot, a named retailer sponsor and sandbox access.\n- The budget covers 80,000 hardware, 80,000 integration, 50,000 product analytics, 20,000 training and 20,000 contingency.\n- End with the decision: prove the response workflow and retailer economics before scaling. SAP Retail Signal makes an early signal useful by connecting it to action.\n- Total planned main-deck time: 480 seconds including the 90-second video."
+    },
+    {
+      "title": "Financial assumptions and boundaries",
+      "type": "table",
+      "table": [
+        [
+          "Input",
+          "Base assumption",
+          "Validation required"
+        ],
+        [
+          "Currency / reference customer",
+          "CAD; 100 stores; CAD 100M annual sales",
+          "Retailer finance data"
+        ],
+        [
+          "Product price",
+          "CAD 50k platform + CAD 3k/store/year",
+          "Willingness-to-pay and procurement"
+        ],
+        [
+          "RFID footprint",
+          "20 of 100 stores; CAD 8k/store",
+          "Vendor quote; already tagged inventory"
+        ],
+        [
+          "Onboarding",
+          "CAD 75k total; CAD 15k retained by SAP",
+          "Partner scope and signed contract"
+        ],
+        [
+          "Retailer uplift / contribution",
+          "1.0% sales; 45% incremental contribution",
+          "Matched-store test; net of returns and variable costs"
+        ],
+        [
+          "Freed time",
+          "2 hours/store/week; CAD 35/hour",
+          "Time study and redeployment plan"
+        ]
+      ],
+      "notes": "- All values on this slide are modeling assumptions created for the pitch, not data supplied as actual customer results.\n- Prices exclude sales taxes, new item-tag programs and financing. Existing retailer SAP licenses are assumed. Incremental SAP infrastructure and usage costs must be confirmed; if not included in the negotiated subscription they worsen ROI.",
+      "n": 23,
+      "eyebrow": "APPENDIX · 01",
+      "seconds": 0,
+      "foot": "SAP Retail Signal · Supporting detail for Q&A · All financial forecasts are illustrative."
+    },
+    {
+      "title": "Retailer calculations: value and payback",
+      "type": "table",
+      "table": [
+        [
+          "Calculation",
+          "Formula",
+          "CAD / result"
+        ],
+        [
+          "Recovered sales",
+          "100,000,000 × 1.0%",
+          "1,000,000"
+        ],
+        [
+          "Incremental contribution",
+          "1,000,000 × 45%",
+          "450,000"
+        ],
+        [
+          "Capacity value",
+          "100 × 2 × 52 × 35",
+          "364,000"
+        ],
+        [
+          "Annual economic value net of fee",
+          "450,000 + 364,000 − 350,000",
+          "464,000"
+        ],
+        [
+          "Annual cash-only value net of fee",
+          "450,000 − 350,000",
+          "100,000"
+        ],
+        [
+          "Upfront",
+          "20 × 8,000 + 75,000",
+          "235,000"
+        ],
+        [
+          "Payback",
+          "235,000 ÷ annual net × 12",
+          "6.1 months economic / 28.2 cash"
+        ]
+      ],
+      "foot": "Simple payback assumes steady-state benefits from day 1; ramp-up lengthens realized payback.",
+      "notes": "- First-year economic benefit 814,000; cost 585,000; economic surplus 229,000; first-year ROI = 229,000 / 585,000 = 39.1%.\n- Cash-only first-year surplus = 450,000 − 585,000 = −135,000. At the base assumptions, scale should not be approved on economic value alone.\n- No discounting, depreciation, tax, inflation or working-capital benefit included.",
+      "n": 24,
+      "eyebrow": "APPENDIX · 02",
+      "seconds": 0
+    },
+    {
+      "title": "Retailer sensitivity and break-even",
+      "type": "table",
+      "table": [
+        [
+          "Recovered sales uplift",
+          "Annual cash net after fee",
+          "Cash-only payback",
+          "Economic payback"
+        ],
+        [
+          "0.5%",
+          "−CAD 125k",
+          "No payback",
+          "11.8 months"
+        ],
+        [
+          "1.0% · base",
+          "CAD 100k",
+          "28.2 months",
+          "6.1 months"
+        ],
+        [
+          "1.5%",
+          "CAD 325k",
+          "8.7 months",
+          "4.1 months"
+        ],
+        [
+          "2.0%",
+          "CAD 550k",
+          "5.1 months",
+          "3.1 months"
+        ]
+      ],
+      "body": "Renewal cash break-even: 0.778% sales uplift.\n24-month cash payback gate: 1.039% uplift.\nFirst-year cash break-even: 1.300% uplift.",
+      "notes": "- Formulas: cash net = sales × uplift × 45% − 350,000. Economic net adds 364,000 capacity value. Upfront is 235,000.\n- Cash renewal break-even = 350,000 / (100,000,000 × .45).\n- 24-month gate = (350,000 + 235,000/2) / 45,000,000 = 1.0389%.\n- Year-one break-even = (350,000 + 235,000) / 45,000,000 = 1.3%.\n- At 0.5% uplift, economic payback = 235,000 / 239,000 × 12 = 11.8 months, illustrating why cash and capacity must be separated.",
+      "n": 25,
+      "eyebrow": "APPENDIX · 03",
+      "seconds": 0,
+      "foot": "SAP Retail Signal · Supporting detail for Q&A · All financial forecasts are illustrative."
+    },
+    {
+      "title": "Recommendation 1: proposed money flow",
+      "type": "table",
+      "table": [
+        [
+          "Customer charge",
+          "Recipient",
+          "CAD",
+          "Share"
+        ],
+        [
+          "One store hardware + install: CAD 8k",
+          "OEM / tag-equipment supplier",
+          "5,000",
+          "62.5%"
+        ],
+        [
+          "Same invoice",
+          "Regional distributor",
+          "1,000",
+          "12.5%"
+        ],
+        [
+          "Same invoice",
+          "Installation / device-support partner",
+          "2,000",
+          "25.0%"
+        ],
+        [
+          "Customer onboarding: CAD 75k",
+          "Delivery / integration partner",
+          "60,000",
+          "80.0%"
+        ],
+        [
+          "Same onboarding scope",
+          "SAP coordination fee",
+          "15,000",
+          "20.0%"
+        ],
+        [
+          "Reference subscription: CAD 350k/year",
+          "SAP",
+          "350,000",
+          "100%"
+        ]
+      ],
+      "foot": "Illustrative allocations, not manufacturer prices or signed commercial terms. No hardware revenue booked by SAP.",
+      "notes": "- Hardware and installation are customer-funded and separately invoiced by partners in a full rollout.\n- The illustrative 12-week pilot is SAP-funded, so the hardware part of that pilot is a SAP program cost instead.\n- A new garment tagging program, replacements, local duties, service levels and any channel referral fees require separate pricing. Do not present this allocation as a quote from Zebra or Avery Dennison.",
+      "n": 26,
+      "eyebrow": "APPENDIX · 04",
+      "seconds": 0
+    },
+    {
+      "title": "SAP revenue and cost formulas",
+      "type": "table",
+      "table": [
+        [
+          "Metric",
+          "Year 1",
+          "Year 2",
+          "Year 3"
+        ],
+        [
+          "Beginning / new / ending accounts",
+          "0 / 20 / 20",
+          "20 / 40 / 60",
+          "60 / 90 / 150"
+        ],
+        [
+          "Average accounts: begin + ½ new",
+          "10",
+          "40",
+          "105"
+        ],
+        [
+          "SaaS: average × CAD 350k",
+          "3.500M",
+          "14.000M",
+          "36.750M"
+        ],
+        [
+          "Net service: new × CAD 15k",
+          "0.300M",
+          "0.600M",
+          "1.350M"
+        ],
+        [
+          "Variable cost: SaaS × 25%",
+          "0.875M",
+          "3.500M",
+          "9.1875M"
+        ],
+        [
+          "Fixed product / sales / operations",
+          "5.000M",
+          "6.000M",
+          "8.000M"
+        ],
+        [
+          "Contribution",
+          "−2.075M",
+          "5.100M",
+          "20.9125M"
+        ],
+        [
+          "Cumulative contribution",
+          "−2.075M",
+          "3.025M",
+          "23.9375M"
+        ]
+      ],
+      "notes": "- Revenue assumes recurring software delivered throughout the year, all wins at a midyear average, and no churn or expansion. Services use net coordination fees, not gross pass-through.\n- Commercial principal-versus-agent treatment must be reviewed by finance. This is a simplified product model, not an IFRS revenue-recognition conclusion.\n- Fixed costs include staffing, sales, acquisition, operations and the CAD 250k pilot. Hardware margins, tax, corporate allocations and financing are excluded.",
+      "n": 27,
+      "eyebrow": "APPENDIX · 05",
+      "seconds": 0,
+      "foot": "SAP Retail Signal · Supporting detail for Q&A · All financial forecasts are illustrative."
+    },
+    {
+      "title": "SAP downside and concentration risk",
+      "type": "table",
+      "table": [
+        [
+          "Scenario",
+          "Year-3 ending accounts",
+          "Year-3 contribution",
+          "3-year cumulative"
+        ],
+        [
+          "Base: 20 / 60 / 150",
+          "150",
+          "CAD 20.91M",
+          "CAD 23.94M"
+        ],
+        [
+          "Slower wins: 10 / 40 / 80",
+          "80",
+          "CAD 8.35M",
+          "CAD 5.83M"
+        ],
+        [
+          "Price CAD 300k; variable cost 35%",
+          "150",
+          "CAD 13.83M",
+          "CAD 13.48M"
+        ],
+        [
+          "Stalled after 20 customers",
+          "20",
+          "−CAD 2.75M",
+          "−CAD 5.58M"
+        ]
+      ],
+      "body": "Renewal-only break-even at CAD 6M fixed spend:\nCAD 6M ÷ (CAD 350k × 75%) = 22.9 full-year accounts.",
+      "foot": "Scenario analysis, not forecasts. Zero churn is optimistic; renewal, sales cycles and cloud usage require validation.",
+      "notes": "- Slower wins uses average customers 5, 25, 60 and new accounts 10, 30, 40 with the same 5M / 6M / 8M fixed costs.\n- Price-pressure case keeps base adoption but price falls to 300k and COGS rises to 35%.\n- Stalled case: ending accounts 20,20,20, average 10,20,20; new20,0,0; contributions −2.075M,−0.75M,−2.75M. Cumulative −5.575M.\n- Losses are plausible if sales stall; scale spending should follow evidence.",
+      "n": 28,
+      "eyebrow": "APPENDIX · 06",
+      "seconds": 0
+    },
+    {
+      "title": "Pilot funding and release gates",
+      "type": "table",
+      "table": [
+        [
+          "Use of funds",
+          "CAD",
+          "Release condition"
+        ],
+        [
+          "10-store hardware trial",
+          "80,000",
+          "Zone accuracy and partner quote"
+        ],
+        [
+          "Integration engineering",
+          "80,000",
+          "Sandbox, fields and access approved"
+        ],
+        [
+          "Product + measurement",
+          "50,000",
+          "Baseline and matched-store design agreed"
+        ],
+        [
+          "Training + adoption",
+          "20,000",
+          "Named planners and store champions"
+        ],
+        [
+          "Contingency",
+          "20,000",
+          "Sponsor approval for actual need"
+        ],
+        [
+          "Total pilot proposal",
+          "250,000",
+          "Capped; included in Year-1 fixed spending"
+        ]
+      ],
+      "notes": "- The hardware line is a trial budget, not a committed ten-store purchase. Timing depends on device availability and local approvals.\n- Customer staff time and existing SAP licenses are contributions assumed outside this SAP program budget. Confirm their costs with the design partner.\n- Week-two gate: data and privacy feasibility. Week-five gate: reliable shadow recommendations. Week-eight gate: safe actions. Week-twelve gate: adoption, response time and economics.",
+      "n": 29,
+      "eyebrow": "APPENDIX · 07",
+      "seconds": 0,
+      "foot": "SAP Retail Signal · Supporting detail for Q&A · All financial forecasts are illustrative."
+    },
+    {
+      "title": "What is implemented today",
+      "type": "table",
+      "table": [
+        [
+          "Capability",
+          "Working prototype",
+          "Needed for production"
+        ],
+        [
+          "Demand evidence",
+          "Seeded try-ons, purchases and qualified digital aggregates",
+          "Live RFID and commerce collection"
+        ],
+        [
+          "Supply and cost",
+          "Selectable network, editable demo rates, public benchmarks, shortage simulation",
+          "Validated supplier / material / logistics feeds"
+        ],
+        [
+          "Assistant",
+          "Deterministic explanations and calculations",
+          "Authorized SAP Joule orchestration and evaluation"
+        ],
+        [
+          "Execution",
+          "Local proposal → approve → issue → receipt lifecycle",
+          "Authenticated SAP tenant APIs, permissions and reconciliation"
+        ],
+        [
+          "Storage / security",
+          "Browser-local demo state; no business database",
+          "Tenant database, identity, access controls and audit storage"
+        ]
+      ],
+      "foot": "React + TypeScript + UI5 interface. SAP-like styling does not itself establish SAP integration.",
+      "notes": "- The prototype uses React for the interface, TypeScript for typed code, Vite for development/building, and UI5 web components for SAP-style controls.\n- localStorage is browser storage; it is useful for a demo but not a secure multi-user system of record.\n- The public market endpoint retrieves a fixed set of benchmark series and caches observations. Dates and currencies remain visible. It is not a live supplier quote feed or a news prediction engine.",
+      "n": 30,
+      "eyebrow": "APPENDIX · 08",
+      "seconds": 0
+    },
+    {
+      "title": "Proposed SAP integration responsibilities",
+      "type": "table",
+      "table": [
+        [
+          "SAP application / service",
+          "Role in the proposed product",
+          "Current status"
+        ],
+        [
+          "SAP CAR",
+          "Shared sales and retail inventory context",
+          "Seeded inputs"
+        ],
+        [
+          "SAP S/4HANA",
+          "Purchasing, stock transport, issue and receipt",
+          "Local workflow simulation"
+        ],
+        [
+          "SAP Commerce Cloud",
+          "Online events and sellable availability",
+          "Seeded events / shared demo stock"
+        ],
+        [
+          "SAP IBP",
+          "Planning scenarios and approved planning handoff",
+          "Export / mapping concept"
+        ],
+        [
+          "BTP / Integration Suite",
+          "Secure interfaces, event routing and monitoring",
+          "Production design"
+        ],
+        [
+          "SAP Joule / Business AI",
+          "Explain evidence and call approved business actions",
+          "Joule-inspired deterministic demo"
+        ]
+      ],
+      "foot": "Required products and licenses depend on the retailer’s landscape. Reuse existing planning instead of replacing it.",
+      "notes": "- CAR is Customer Activity Repository, a place to harmonize retail transaction data. S/4HANA is enterprise resource planning software, or ERP, holding business records and operations.\n- IBP means Integrated Business Planning. Commerce Cloud runs digital commerce. BTP is the platform for extensions; Integration Suite connects systems.\n- Sources: https://www.sap.com/products/crm/customer-activity-repository.html ; https://learning.sap.com/products/s4hana-cloud ; https://www.sap.com/products/crm/commerce-cloud.html ; https://www.sap.com/products/scm/integrated-business-planning.html ; https://www.sap.com/products/technology-platform/integration-suite.html .",
+      "n": 31,
+      "eyebrow": "APPENDIX · 09",
+      "seconds": 0
+    },
+    {
+      "title": "The transfer demo: conservation of inventory",
+      "type": "table",
+      "table": [
+        [
+          "Step",
+          "Burnaby physical",
+          "In transit",
+          "Vancouver sellable"
+        ],
+        [
+          "Before proposal",
+          "76",
+          "0",
+          "8"
+        ],
+        [
+          "40-unit proposal / approval",
+          "76",
+          "0",
+          "8"
+        ],
+        [
+          "Goods issue",
+          "36",
+          "40",
+          "8"
+        ],
+        [
+          "Goods receipt",
+          "36",
+          "0",
+          "48"
+        ]
+      ],
+      "body": "The proposal reserves 40 available units and preserves Burnaby’s 36-unit reserve.\nThe scenario covers 48 / 80 = 60%; 32 units remain uncovered.",
+      "foot": "CAD 60 transfer cost = 40 × CAD 1.50/unit. Two-day transit is an assumption; the 9-day alternative misses the 7-day window.",
+      "notes": "- Proposal and approval reserve available stock but do not physically move it. Goods issue records dispatch; goods receipt records arrival.\n- Baseline exposure: (80 − 8) × 39 = CAD 2,808 retail value. After feasible receipt: (80 − 48) × 39 = CAD 1,248. This is not realized revenue.\n- A 70% lost-sale assumption gives CAD 1,965.60 versus 873.60 estimated foregone sales. Do not present the CAD 1,092 difference as profit or observed sales.",
+      "n": 32,
+      "eyebrow": "APPENDIX · 10",
+      "seconds": 0
+    },
+    {
+      "title": "Demand calculations and inference limits",
+      "type": "table",
+      "table": [
+        [
+          "Signal",
+          "Calculation",
+          "What it can establish"
+        ],
+        [
+          "Try-on conversion",
+          "43 ÷ 240 = 17.9%; 32% baseline",
+          "Conversion is lower; cause still needs investigation."
+        ],
+        [
+          "Online shortage scenario",
+          "floor(162 sessions × 15%) = 24 units",
+          "A quantity to test, not 24 confirmed orders."
+        ],
+        [
+          "Gross online exposure",
+          "24 × CAD 39 = CAD 936",
+          "Illustrative retail value before uncertainty."
+        ],
+        [
+          "Estimated foregone online sales",
+          "CAD 936 × 70% = CAD 655.20",
+          "Depends on the explicit lost-sale assumption."
+        ]
+      ],
+      "body": "Qualify session + SKU pairs; exclude bots and repeated events.\nDo not add store and online signals into a unique customer total.",
+      "notes": "- Fitting-room counts are aggregated item interactions, not identified customers. POS means point of sale, the checkout system.\n- Conversion is purchases divided by interactions. A low ratio may reflect availability, fit, price, merchandising or measurement errors.\n- Digital inference should use historical conversion where possible, a range rather than false precision, and bot/agent classification rather than silently treating all machine traffic as worthless.",
+      "n": 33,
+      "eyebrow": "APPENDIX · 11",
+      "seconds": 0,
+      "foot": "SAP Retail Signal · Supporting detail for Q&A · All financial forecasts are illustrative."
+    },
+    {
+      "title": "Gas-shortage demo: unit cost and cohort impact",
+      "type": "table",
+      "table": [
+        [
+          "Input / result",
+          "Illustrative scenario"
+        ],
+        [
+          "Shock assumptions",
+          "25% less input supply; +30% input price; +7 days; 30-day horizon"
+        ],
+        [
+          "Cream top energy uplift",
+          "0.12 MMBtu × CAD 5.80/MMBtu × 30% × 100% pass-through = CAD 0.2088"
+        ],
+        [
+          "Cream top landed cost / margin",
+          "CAD 13.50 → 13.71; 65.38% → 64.85% at CAD 39 retail"
+        ],
+        [
+          "Completed new-production cohort",
+          "Added cost CAD 208.22; weighted margin 68.20% → 67.89%"
+        ],
+        [
+          "Deferred production",
+          "329 of 1,309 planned new units; not assumed permanently lost"
+        ],
+        [
+          "Planning-cohort profit reduction",
+          "CAD 15,339.50 on deferred units + CAD 208.22 added cost = CAD 15,547.72"
+        ]
+      ],
+      "foot": "MMBtu = million British thermal units, an energy measure. Production reduction and price increase are independent assumptions.",
+      "notes": "- Base cost already includes existing energy; only the uplift is added. Supplier pass-through is how much added supplier cost reaches the retailer, not a retail price increase.\n- Weighted margin is calculated from revenue and costs across completed units; do not average SKU percentages unweighted.\n- The separate timeline estimates foregone sales using current stock and hypothetical receipts. Do not add that sales estimate to the cohort gross-profit reduction.\n- Public benchmark: https://fred.stlouisfed.org/series/PNGASUSUSDM ; benchmark currency/market differs from the illustrative Canadian purchase rate.",
+      "n": 34,
+      "eyebrow": "APPENDIX · 12",
+      "seconds": 0
+    },
+    {
+      "title": "Sources: case, market and SAP context",
+      "type": "sources",
+      "entries": [
+        [
+          "S1 · Product+ case package",
+          "Supplied PDF, pp. 3–5. Challenge, user roles, SAP customer/country baseline."
+        ],
+        [
+          "S2 · Plus One Braincell Launchpad",
+          "Supplied PDF, recommendations 1–3 and source bibliography. Team 463980."
+        ],
+        [
+          "S3 · SAP Future of Retail",
+          "https://www.sap.com/engage/future-of-retail.html\n14,000+ retail customers; broader footprint, not eligible apparel accounts."
+        ],
+        [
+          "S4 · Shopify fashion industry",
+          "https://www.shopify.com/uk/enterprise/blog/ecommerce-fashion-industry\n2026 fashion e-commerce projection, citing Statista; different scope from apparel sales."
+        ],
+        [
+          "S5 · McKinsey agentic commerce",
+          "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-agentic-commerce-opportunity-how-ai-agents-are-ushering-in-a-new-era-for-consumers-and-merchants\nUS$3–5T goods commerce by 2030 is context, not software TAM."
+        ]
+      ],
+      "foot": "Accessed 25 Oct 2026. The Launchpad’s valuation and H1 revenue figures are omitted because they are unnecessary to the investment case.",
+      "notes": "- Statista’s apparel page was not retrievable in this review. The Launchpad’s US$1.92T apparel estimate is therefore not used as a verified slide claim.\n- US$957B online fashion and US$1.92T all-channel apparel have different category definitions; dividing them would be misleading.\n- Market account counts, pricing, benefits, adoption and all forecast costs are team assumptions.",
+      "n": 35,
+      "eyebrow": "APPENDIX · 13",
+      "seconds": 0
+    },
+    {
+      "title": "Sources: SAP applications and AI governance",
+      "type": "sources",
+      "entries": [
+        [
+          "S6 · Customer Activity Repository",
+          "https://www.sap.com/products/crm/customer-activity-repository.html\nTransaction, demand and inventory context."
+        ],
+        [
+          "S7 · Commerce / planning / execution",
+          "https://www.sap.com/products/crm/commerce-cloud.html\nhttps://www.sap.com/products/scm/integrated-business-planning.html\nhttps://learning.sap.com/products/s4hana-cloud"
+        ],
+        [
+          "S8 · Integration Suite",
+          "https://www.sap.com/products/technology-platform/integration-suite.html\nControlled SAP and third-party integration; actual tenant mapping still required."
+        ],
+        [
+          "S9 · AI data handling",
+          "https://www.sap.com/products/artificial-intelligence/ai-ethics.html\nhttps://learning.sap.com/courses/building-confidence-in-ai-with-sap/does-ai-train-on-my-data\nUse depends on agreements and service settings; external model training is restricted."
+        ]
+      ],
+      "foot": "Accessed 25 Oct 2026. Product capabilities are vendor descriptions; proposed integrations are not completed integrations.",
+      "notes": "- This presentation makes no claim of unrestricted cross-customer data pooling or demonstrated model superiority.\n- Grounding means supplying authorized relevant business evidence to an AI response. Training means changing the AI model based on examples. The two are different.",
+      "n": 36,
+      "eyebrow": "APPENDIX · 14",
+      "seconds": 0
+    },
+    {
+      "title": "Sources: hardware, distribution and competition",
+      "type": "sources",
+      "entries": [
+        [
+          "S10 · Hardware capability",
+          "https://www.zebra.com/us/en/products/rfid/rfid-readers.html\nhttps://rfid.averydennison.com/en/home/industry-segments/retail/apparel-and-fashion.html"
+        ],
+        [
+          "S11 · Regional presence",
+          "https://careers.ingrammicro.com/en/locations/\nhttps://www.tdsynnex.com/us/en/where-we-are.html\nhttps://redingtongroup.com/about-us/global-presence/"
+        ],
+        [
+          "S12 · Competitors",
+          "https://www.sensormatic.com/de_de/TrueVUE-Inventory-Intel/TrueVUE-Fitting-Room\nhttps://www.oracle.com/retail/\nhttps://blueyonder.com/solutions/retail-planning"
+        ],
+        [
+          "S13 · Prototype and public reference",
+          "Current local Retail Signal website, captured 25 Oct 2026.\nhttps://fred.stlouisfed.org/series/PNGASUSUSDM\nPublic commodity observations are not supplier quotes."
+        ]
+      ],
+      "foot": "Sources establish capabilities and geographic presence, not a signed Retail Signal partnership or a completed feature audit.",
+      "notes": "- A distributor’s presence in a country does not establish authorization for a specific Zebra SKU, stock availability, local installation capacity or commercial terms.\n- Procurement must validate those separately before any rollout commitments.",
+      "n": 37,
+      "eyebrow": "APPENDIX · 15",
+      "seconds": 0
+    },
+    {
+      "title": "Evaluation coverage and Q&A",
+      "type": "table",
+      "table": [
+        [
+          "Evaluation criterion",
+          "Weight",
+          "Where addressed"
+        ],
+        [
+          "Problem definition",
+          "20%",
+          "Specific planner, current workflow, Bob before; pilot baseline"
+        ],
+        [
+          "Product solution",
+          "20%",
+          "Three parts, feature priorities, competitors and retailer economics"
+        ],
+        [
+          "Prototype",
+          "20%",
+          "Working website walkthrough; evidence → simulate → approve → receive"
+        ],
+        [
+          "Implementation",
+          "10%",
+          "12-week plan, resources, dependencies, risks and KPI gates"
+        ],
+        [
+          "Stakeholder alignment",
+          "20%",
+          "Decision rights, privacy, CFO cash gate, partner incentives and limits"
+        ],
+        [
+          "Presentation / Q&A",
+          "10%",
+          "480-second main flow; financial formulas and sources in appendix"
+        ]
+      ],
+      "notes": "- Why not just use IBP? Reuse IBP; test whether early intent plus a simpler operational workflow adds incremental value.\n- Is the demo AI? The assistant is deterministic; production SAP Joule access and model evaluation remain future work.\n- Are these customer results? No. Demo figures are seeded; benefits are modeling assumptions.\n- Is the cash ROI good enough? Not yet in the base case. The pilot must prove 1.039% sales uplift or equivalent cost/price improvement to meet 24-month cash payback.\n- What about customer data? Authorized within-tenant grounding first; training only within agreed terms and controls.",
+      "n": 38,
+      "eyebrow": "APPENDIX · 16",
+      "seconds": 0,
+      "foot": "SAP Retail Signal · Supporting detail for Q&A · All financial forecasts are illustrative."
+    }
+  ],
+  "timing": 480
+}

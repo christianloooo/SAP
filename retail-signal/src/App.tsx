@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Avatar,
   Button,
@@ -39,11 +39,11 @@ import {
   LocationIntelligence,
   RiskSeasonality,
   SapWorkflow,
-  ConnectionSettings,
   OpportunityExposure,
 } from "./components/PlanningViews";
+import { answerQuestion } from "./assistant";
+import type { AssistantContext, AssistantAnswer } from "./assistant";
 import SupplyNetwork from "./components/SupplyNetwork";
-import { readConnections } from "./connections";
 import { proposeTransfer, transferable } from "./planning";
 
 const navItems: { page: Page; icon: string }[] = [
@@ -192,7 +192,6 @@ function Kpi({
   );
 }
 export default function App() {
-  const [connections, setConnections] = useState(readConnections);
   const [page, setPage] = useState<Page>("Command Center");
   const [state, setState] = useState<DemoState>(loadState);
   const [selected, setSelected] = useState<Opportunity | null>(null);
@@ -203,10 +202,16 @@ export default function App() {
   const [range, setRange] = useState("Last 7 days");
   const [sort, setSort] = useState("Priority");
   const [assistant, setAssistant] = useState(false);
+  const [assistantContext, setAssistantContext] =
+    useState<AssistantContext | null>(null);
   const [question, setQuestion] = useState("");
-  const [messages, setMessages] = useState<{ role: string; text: string }[]>(
-    [],
-  );
+  const [messages, setMessages] = useState<
+    { role: string; text: string; answer?: AssistantAnswer; context?: string }[]
+  >([]);
+  const messagesEnd = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    messagesEnd.current?.scrollIntoView({ block: "nearest" });
+  }, [messages]);
   const [toast, setToast] = useState("");
   const [guide, setGuide] = useState(0);
   const [kind, setKind] = useState<ScenarioKind>("transfer");
@@ -215,7 +220,6 @@ export default function App() {
   const [tab, setTab] = useState("Overview");
   const [signalTab, setSignalTab] = useState("In-store signals");
   const [inventoryQuery, setInventoryQuery] = useState("");
-  const [supplier, setSupplier] = useState<string | null>(null);
   useEffect(() => {
     localStorage.setItem("retail-signal-v1", JSON.stringify(state));
   }, [state]);
@@ -228,7 +232,6 @@ export default function App() {
   const navigate = (p: Page) => {
     setPage(p);
     setSelected(null);
-    setSupplier(null);
   };
   const open = (o: Opportunity) => {
     setSelected(o);
@@ -348,28 +351,23 @@ export default function App() {
       setQty(0);
     }
   };
-  const ask = (text: string) => {
-    const o = selected || opportunities[0],
-      source = state.inventory.find((i) => i.id === `${o.id}-source`)!;
-    const r = simulate(
-      o,
-      state,
-      "transfer",
-      Math.min(40, transferable(state, source)),
-    );
-    let answer = "";
-    if (/transfer|what happens|40|stock|stores/.test(text.toLowerCase()))
-      answer = `${source.location} has ${source.stock} units, including a protected reserve of ${source.reserve}. ${r.maximum} units are available for transfer. Moving ${r.qty} units would bring ${o.location} to ${stockFor(o, state) + r.qty} units and cover ${r.coverage}% of the ${demandFor(o, state)}-unit seven-day scenario. Estimated transport cost: ${money(r.cost)}; transit: 2 days. This assumes transferred units can sell within the window.`;
-    else if (/supplier|delay|10 days/.test(text.toLowerCase()))
-      answer = `${o.supplier} has a ${o.lead}-day lead time${/10/.test(text) ? `, or ${o.lead + 10} days with your additional delay` : ""}. Both are outside the seven-day demand window. An approved alternative has a 9-day lead time at CAD 14.50/unit (capacity: 120). Use a transfer for immediate coverage and request a buyer review for replenishment. Future demand and delivery timing remain uncertain.`;
-    else if (/why|flag|recommend|demand|caus/.test(text.toLowerCase()))
-      answer = `${o.product}, size ${o.size}, shows ${o.growth}% demand acceleration. ${o.tries} fitting-room interactions produced ${o.purchases} purchases (${conversion(o.purchases, o.tries)}% conversion; baseline ${o.baseline}%). Online, ${o.oos} qualified out-of-stock sessions were observed. Current destination stock: ${stockFor(o, state)} units against a seven-day scenario of ${demandFor(o, state)} units. A transfer addresses the immediate gap; investigate availability, fit, price and merchandising before a larger commitment. Interest is not a guaranteed sale.`;
-    else
-      answer = `I can explain ${o.product}'s signals, compare available stock, simulate a transfer, or assess supplier delays. Ask “Why is this product flagged?”, “What happens if we transfer 40 units?” or “What if our supplier is delayed by 10 days?” Responses use seeded records and deterministic calculations.`;
+  const currentAssistantContext: AssistantContext = selected
+    ? { name: `${selected.product} · ${selected.size}`, skus: [selected.sku] }
+    : (page === "Inventory & Supply" ? assistantContext : null) || {
+        name: opportunities[0].product,
+        skus: [opportunities[0].sku],
+      };
+  const ask = (text: string, context = currentAssistantContext) => {
+    const answer = answerQuestion(text, state, context);
     setMessages((m) => [
       ...m,
       { role: "user", text },
-      { role: "assistant", text: answer },
+      {
+        role: "assistant",
+        text: answer.summary,
+        answer,
+        context: context.name,
+      },
     ]);
     setQuestion("");
   };
@@ -378,6 +376,7 @@ export default function App() {
     setSelected(null);
     setGuide(0);
     setMessages([]);
+    setAssistantContext(null);
     notify("Demo reset to the original seeded data.");
   };
   function OpportunitiesTable() {
@@ -1489,6 +1488,12 @@ export default function App() {
           onOpportunity={open}
           onWorkflow={() => navigate("SAP Workflow")}
           notify={notify}
+          onContext={setAssistantContext}
+          onAsk={(text, context) => {
+            setAssistantContext(context);
+            setAssistant(true);
+            ask(text, context);
+          }}
         />
         <Panel
           title="Inventory network"
@@ -1508,8 +1513,8 @@ export default function App() {
           )}
         </Panel>
         <Panel
-          title="Supplier constraints"
-          sub="Inspect a supplier to find dependent opportunities"
+          title="Supplier commercial terms"
+          sub="Finished-garment costs and capacity · select suppliers in the network to inspect dependencies"
         >
           <div className="table-scroll">
             <table>
@@ -1567,14 +1572,7 @@ export default function App() {
                   ],
                 ].map((row) => (
                   <tr key={row[0]}>
-                    <td>
-                      <button
-                        className="text-link"
-                        onClick={() => setSupplier(row[0])}
-                      >
-                        {row[0]}
-                      </button>
-                    </td>
+                    <td>{row[0]}</td>
                     <td>
                       <Status
                         tone={row[1] === "Delayed" ? "warning" : "positive"}
@@ -1591,38 +1589,6 @@ export default function App() {
             </table>
           </div>
         </Panel>
-        {supplier && (
-          <Panel
-            title={`${supplier} · dependent opportunities`}
-            action={
-              <Button
-                design="Transparent"
-                icon="decline"
-                accessibleName="Close supplier details"
-                onClick={() => setSupplier(null)}
-              />
-            }
-          >
-            <div className="supplier-links">
-              {opportunities
-                .filter(
-                  (o) =>
-                    o.supplier === supplier ||
-                    (supplier.startsWith("Coastal") && o.id === "OPP-1042"),
-                )
-                .map((o) => (
-                  <Button
-                    key={o.id}
-                    design="Transparent"
-                    onClick={() => open(o)}
-                  >
-                    {o.id} · {o.product} · {o.size}
-                    <Icon name="slim-arrow-right" />
-                  </Button>
-                ))}
-            </div>
-          </Panel>
-        )}
       </>
     );
   }
@@ -1667,11 +1633,6 @@ export default function App() {
   function Integrations() {
     return (
       <>
-        <ConnectionSettings
-          connections={connections}
-          onConnections={setConnections}
-          notify={notify}
-        />
         <MessageStrip design="Information" hideCloseButton>
           All connectors are simulated. No SAP tenant, credentials, live API
           access or production transactions are configured.
@@ -2050,9 +2011,7 @@ export default function App() {
                     state={state}
                     onState={setState}
                     notify={notify}
-                    connections={connections}
                     onWorkflow={() => navigate("SAP Workflow")}
-                    onConnections={() => navigate("Integrations")}
                     onOpportunity={open}
                   />
                 )}
@@ -2070,7 +2029,6 @@ export default function App() {
                     state={state}
                     onState={setState}
                     notify={notify}
-                    connections={connections}
                   />
                 )}
 
@@ -2143,13 +2101,14 @@ export default function App() {
         aria-label="Open Joule-inspired assistant"
       >
         <span>✧</span>
+        <strong>Ask Joule</strong>
       </button>
       {assistant && (
         <aside className="assistant-panel">
           <div className="assistant-header">
             <div className="joule-mark">✧</div>
             <div>
-              <h3>Retail Signal Assistant</h3>
+              <h3>Joule · Retail Signal</h3>
               <span>Joule-inspired · Simulated</span>
             </div>
             <Button
@@ -2161,8 +2120,15 @@ export default function App() {
           </div>
           <div className="assistant-context">
             <Icon name="chain-link" />
-            {(selected || opportunities[0]).product} ·{" "}
-            {(selected || opportunities[0]).size}
+            <div>
+              <strong>{currentAssistantContext.name}</strong>
+              <small>
+                {currentAssistantContext.skus.join(" · ")}
+                {currentAssistantContext.timeline
+                  ? ` · Graph day ${currentAssistantContext.timeline.day} · ${currentAssistantContext.timeline.view}`
+                  : " · Current saved records"}
+              </small>
+            </div>
           </div>
           <div className="assistant-messages">
             {messages.length === 0 ? (
@@ -2192,18 +2158,77 @@ export default function App() {
               messages.map((m, i) => (
                 <div className={`chat-message ${m.role}`} key={i}>
                   {m.role === "assistant" && (
-                    <strong>Retail Signal Assistant</strong>
+                    <strong>Joule · {m.context}</strong>
                   )}
                   <p>{m.text}</p>
+                  {m.answer && (
+                    <>
+                      <div className="assistant-evidence">
+                        <h4>Evidence & calculations</h4>
+                        {m.answer.evidence.map((item, j) => (
+                          <p key={j}>{item}</p>
+                        ))}
+                      </div>
+                      <details>
+                        <summary>Assumptions & limits</summary>
+                        <p>{m.answer.assumptions}</p>
+                      </details>
+                      <Button
+                        design="Emphasized"
+                        onClick={() => {
+                          const o = opportunities.find(
+                            (o) => o.id === m.answer!.opportunityId,
+                          )!;
+                          open(o);
+                          setAssistant(false);
+                        }}
+                      >
+                        Review opportunity & response
+                      </Button>
+                    </>
+                  )}
+                  {m.answer?.sources && (
+                    <div className="assistant-market-sources">
+                      {m.answer.sources.map((source) => (
+                        <a
+                          href={source.url}
+                          key={source.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {source.label} ↗
+                        </a>
+                      ))}
+                    </div>
+                  )}
                   {m.role === "assistant" && (
                     <small>
-                      Source: seeded demand, inventory and supplier records
+                      Source: seeded demand, procurement and inventory records;
+                      public market references are cited where used.
                     </small>
                   )}
                 </div>
               ))
             )}
+            <div ref={messagesEnd} />
           </div>
+          {messages.length > 0 && (
+            <div className="assistant-followups">
+              {[
+                "Explain current exceptions",
+                "Which stores have available stock?",
+                "Supplier delayed by 10 days",
+                "Explain shortage costs and margin",
+              ].map((t) => (
+                <button key={t} onClick={() => ask(t)}>
+                  {t}
+                </button>
+              ))}
+              <button onClick={() => setMessages([])}>
+                Clear conversation
+              </button>
+            </div>
+          )}
           <form
             onSubmit={(e) => {
               e.preventDefault();

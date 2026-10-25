@@ -1,0 +1,79 @@
+[
+  {
+    "idx": 1,
+    "start": 0,
+    "duration": 8,
+    "title": "SAP Retail Signal",
+    "eyebrow": "ONE PRODUCT \u00b7 THREE PARTS",
+    "body": "Fitting-room interest.\nUnavailable online sizes.\nSupply-chain response.",
+    "callout": "One shared decision workflow",
+    "image": "command.png",
+    "narration": "SAP Retail Signal connects fitting-room interest, unavailable online sizes, and supply-chain response in one product."
+  },
+  {
+    "idx": 2,
+    "start": 8,
+    "duration": 15,
+    "title": "1 \u00b7 Smart fitting-room signals",
+    "eyebrow": "CUSTOMER INTEREST BEFORE PURCHASE",
+    "body": "240 try-ons\n43 purchases\n17.9% conversion",
+    "callout": "Joule highlights the gap and asks Bob to check availability, fit and price.",
+    "image": "opportunity.png",
+    "narration": "First, fitting-room signals. The cream medium top has two hundred forty try-ons but forty-three purchases. Jewel highlights low conversion and available stock. Bob investigates availability, fit and price; the signal cannot establish the cause."
+  },
+  {
+    "idx": 3,
+    "start": 23,
+    "duration": 15,
+    "title": "2 \u00b7 Out-of-stock demand tracker",
+    "eyebrow": "INTEREST THAT SALES REPORTS MISS",
+    "body": "162 qualified sessions\n\u00d7 15% assumed conversion\n= 24 scenario units",
+    "callout": "Joule helps Bob test a restock quantity, then checks stock and lead time.",
+    "image": "online.png",
+    "narration": "Second, online demand. One hundred sixty-two qualified out-of-stock sessions suggest twenty-four units at an assumed fifteen-percent conversion rate. Jewel helps test that restock quantity against stock and lead time. These are possible purchases, not confirmed orders."
+  },
+  {
+    "idx": 4,
+    "start": 38,
+    "duration": 12,
+    "title": "3 \u00b7 Supply-chain risk and response",
+    "eyebrow": "SELECT AN INPUT \u00b7 SEE ITS CONTEXT",
+    "body": "Natural gas\nCAD 5.80 per MMBtu\nat Pacific Apparel",
+    "callout": "Supplier purchase rates and public market benchmarks stay separate.",
+    "image": "gas.png",
+    "narration": "Third, supply-chain risk. Bob selects natural gas to inspect suppliers, purchase rates and a dated market benchmark. Contract prices and public benchmarks stay separate."
+  },
+  {
+    "idx": 5,
+    "start": 50,
+    "duration": 13,
+    "title": "A gas shortage reaches the network",
+    "eyebrow": "HYPOTHETICAL SHOCK \u00b7 EXISTING STOCK PRESERVED",
+    "body": "25% less new supply\n30% higher input price\n7 additional delivery days",
+    "callout": "The graph highlights exposed products, production and fulfillment.",
+    "image": "gas-impact.png",
+    "narration": "Bob simulates twenty-five percent less new supply, a thirty-percent input-price increase and seven extra delivery days. The graph highlights exposed products and facilities. Existing inventory stays available."
+  },
+  {
+    "idx": 6,
+    "start": 63,
+    "duration": 15,
+    "title": "Joule explains cost and margin",
+    "eyebrow": "EVIDENCE AND CALCULATIONS",
+    "body": "CAD 208 added cost\n68.20% \u2192 67.89% margin\n329 planned units deferred",
+    "callout": "Deferred production is not automatically permanently lost sales.",
+    "image": "joule-gas.png",
+    "narration": "Jewel explains about two hundred eight dollars added cost on completed new production. Weighted margin falls from sixty-eight point two to sixty-seven point eight nine percent. Three hundred twenty-nine planned units are deferred, not permanently lost."
+  },
+  {
+    "idx": 7,
+    "start": 78,
+    "duration": 12,
+    "title": "Bob chooses an accountable response",
+    "eyebrow": "SIMULATE \u00b7 APPROVE \u00b7 ISSUE \u00b7 RECEIVE",
+    "body": "40 units transferred\nCAD 60 modeled cost\n10% \u2192 60% coverage",
+    "callout": "Receipt, not approval, makes stock sellable. All SAP and Joule actions here are simulated.",
+    "image": "transfer.png",
+    "narration": "Bob tests a forty-unit transfer costing sixty dollars. Seven-day coverage rises from ten to sixty percent. Approval, dispatch and receipt remain separate steps. SAP and Jewel connections here are simulated."
+  }
+]

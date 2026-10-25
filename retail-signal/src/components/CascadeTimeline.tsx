@@ -30,6 +30,7 @@ interface Props {
   baseline: CascadeRun;
   delayed: CascadeRun;
   response: CascadeRun;
+  resourceShockLabel?: string;
 }
 export function CascadeTimeline({
   controls: c,
@@ -37,6 +38,7 @@ export function CascadeTimeline({
   baseline,
   delayed,
   response,
+  resourceShockLabel,
 }: Props) {
   const [playing, setPlaying] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
@@ -75,6 +77,13 @@ export function CascadeTimeline({
   const total = active.days[c.horizon];
   return (
     <div className="cascade-panel">
+      {resourceShockLabel && (
+        <div className="shock-path-banner">
+          {resourceShockLabel} applies to new primary and alternative inbound
+          supply. The original-timing comparison excludes this shock. Existing
+          inventory and in-transit transfers are preserved.
+        </div>
+      )}
       <div className="cascade-heading">
         <div>
           <span>DOWNSTREAM IMPACT SIMULATOR</span>
@@ -180,52 +189,28 @@ export function CascadeTimeline({
           </Select>
         </label>
       </div>
-      <div
-        className="cascade-scenario-tabs"
-        role="group"
-        aria-label="Projected graph scenario"
-      >
-        {(
-          [
-            { id: "baseline", label: "Original supplier timing" },
-            { id: "delayed", label: "Delay · no additional action" },
-            { id: "response", label: "Delay · with response" },
-          ] as const
-        ).map((v) => (
-          <button
-            key={v.id}
-            aria-pressed={c.view === v.id}
-            className={c.view === v.id ? "active" : ""}
-            onClick={() => onChange({ view: v.id, enabled: true })}
-          >
-            {v.label}
-          </button>
-        ))}
-      </div>
       <div className="cascade-scrubber">
         <Button
           icon={playing ? "media-pause" : "media-play"}
           accessibleName={
             playing ? "Pause downstream timeline" : "Play downstream timeline"
           }
-          onClick={() => setPlaying(!playing)}
+          onClick={() => {
+            setPlaying(!playing);
+            if (!playing) onChange({ enabled: true });
+          }}
         >
           {playing ? "Pause" : "Play"}
         </Button>
         <strong>Day {c.day}</strong>
-        <input
-          aria-label="Downstream simulation day"
-          type="range"
-          min="0"
-          max={c.horizon}
-          step="1"
-          value={c.day}
-          onChange={(e) => {
-            setPlaying(false);
-            onChange({ day: Number(e.target.value) });
-          }}
-        />
-        <span>Day {c.horizon}</span>
+        <span className="cascade-playback-context">
+          {c.view === "baseline"
+            ? "Original supplier timing"
+            : c.view === "response"
+              ? "Disruption with response"
+              : "Disruption without response"}{" "}
+          · {c.horizon}-day horizon
+        </span>
         <Button
           design="Transparent"
           onClick={() => {
@@ -415,13 +400,14 @@ export function CascadeTimeline({
               takes two days. Proposed transfers remain reserved; approved
               transfers dispatch on day 1; existing in-transit transfers arrive
               on day 2. Preview rebalancing dispatches available surplus on day
-              1; the alternative response adds 120 cream-M units at day 9 (only
-              if Pacific Apparel Co. is the disrupted supplier). Source-store
-              sales continue, so transferring stock can move risk to that
-              source. Unfulfilled demand is lost rather than backordered;
-              estimated sales foregone = unfulfilled units × retail price × 70%.
-              Demand across facilities is assumed independent; no seasonal,
-              price, traffic or probabilistic effects are modeled.
+              1; the alternative response assumes 120 cream-M units at day 9
+              before any active input-shock reduction and delay (only if Pacific
+              Apparel Co. is the disrupted supplier). Source-store sales
+              continue, so transferring stock can move risk to that source.
+              Unfulfilled demand is lost rather than backordered; estimated
+              sales foregone = unfulfilled units × retail price × 70%. Demand
+              across facilities is assumed independent; no seasonal, price,
+              traffic or probabilistic effects are modeled.
             </p>
             <div className="table-scroll cascade-events">
               <table>

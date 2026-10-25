@@ -1,8 +1,15 @@
+import { resources } from "./resources";
 import { opportunities, demandFor } from "./data";
 import type { DemoState, Opportunity } from "./data";
 import { locations, transferable, salesRisk, onlineDemand } from "./planning";
 export type NetworkNodeKind =
-  "supplier" | "product" | "warehouse" | "store" | "online";
+  | "material"
+  | "production"
+  | "supplier"
+  | "product"
+  | "warehouse"
+  | "store"
+  | "online";
 export interface SupplyNode {
   id: string;
   name: string;
@@ -18,7 +25,13 @@ export interface SupplyEdge {
   from: string;
   to: string;
   skus: string[];
-  kind: "supply" | "allocation" | "rebalance" | "transfer";
+  kind:
+    | "material"
+    | "production"
+    | "supply"
+    | "allocation"
+    | "rebalance"
+    | "transfer";
   label: string;
   risk: boolean;
 }
@@ -57,8 +70,83 @@ export function buildSupplyGraph(s: DemoState): SupplyGraph {
       risk:
         name !== alternativeSupplier &&
         related.some((o) => o.risk !== "On schedule"),
+      x: 272,
+      y: 50 + index * 138,
+    });
+  });
+  // Input specifications and purchase rates are illustrative procurement assumptions.
+  const materials = resources;
+  supplierNames.forEach((name, index) => {
+    const related = supplierOpportunities(name);
+    nodes.push({
+      id: `production:${name}`,
+      name:
+        name === alternativeSupplier
+          ? "Alternative production"
+          : `${name.split(" ")[0]} production`,
+      kind: "production",
+      skus: related.map((o) => o.sku),
+      detail: "Cut / sew / finish · illustrative",
+      risk: false,
+      x: 520,
+      y: 50 + index * 138,
+    });
+    edges.push({
+      id: `production:${name}`,
+      from: `supplier:${name}`,
+      to: `production:${name}`,
+      skus: related.map((o) => o.sku),
+      kind: "production",
+      label:
+        "Illustrative production relationship; lead time included in supplier lead",
+      risk: false,
+    });
+  });
+  materials.forEach((m, index) => {
+    const related = opportunities.filter((o) =>
+      m.categories.includes(o.category),
+    );
+    nodes.push({
+      id: `material:${m.id}`,
+      name: m.name,
+      kind: "material",
+      skus: related.map((o) => o.sku),
+      detail: `Purchased per ${m.unit} · demo rates`,
+      risk: false,
       x: 24,
-      y: 76 + index * 111,
+      y: 40 + index * 112,
+    });
+    if (m.id === "diesel") {
+      m.contracts.forEach((c) => {
+        const skus = s.inventory
+          .filter((i) => `location:${i.location}` === c.nodeId)
+          .map((i) => i.sku);
+        edges.push({
+          id: `fuel:${c.nodeId}`,
+          from: `material:${m.id}`,
+          to: c.nodeId,
+          skus,
+          kind: "material",
+          label: "Illustrative diesel dependency · 0.8 litre per new garment",
+          risk: false,
+        });
+      });
+      return;
+    }
+    supplierNames.forEach((name) => {
+      const skus = supplierOpportunities(name)
+        .filter((o) => m.categories.includes(o.category))
+        .map((o) => o.sku);
+      if (skus.length)
+        edges.push({
+          id: `${m.id}:${name}`,
+          from: `material:${m.id}`,
+          to: `supplier:${name}`,
+          skus,
+          kind: "material",
+          label: "Illustrative material dependency; availability unverified",
+          risk: false,
+        });
     });
   });
   opportunities.forEach((o, index) => {
@@ -67,14 +155,16 @@ export function buildSupplyGraph(s: DemoState): SupplyGraph {
       name: o.product,
       kind: "product",
       skus: [o.sku],
-      detail: `${o.color} · ${o.size} · ${o.sku}`,
-      risk: o.risk !== "On schedule",
-      x: 304,
-      y: 48 + index * 98,
+      detail: `${s.inventory.find((i) => i.id === `${o.id}-dest`)!.stock} on hand / ${demandFor(o, s)} demand · 7 days`,
+      risk:
+        s.inventory.find((i) => i.id === `${o.id}-dest`)!.stock <
+        demandFor(o, s),
+      x: 768,
+      y: 40 + index * 112,
     });
     edges.push({
       id: `supply:${o.id}`,
-      from: `supplier:${o.supplier}`,
+      from: `production:${o.supplier}`,
       to: `product:${o.sku}`,
       skus: [o.sku],
       kind: "supply",
@@ -124,7 +214,7 @@ export function buildSupplyGraph(s: DemoState): SupplyGraph {
   });
   edges.push({
     id: "supply:alternative",
-    from: `supplier:${alternativeSupplier}`,
+    from: `production:${alternativeSupplier}`,
     to: `product:${opportunities[0].sku}`,
     skus: [opportunities[0].sku],
     kind: "supply",
@@ -172,11 +262,11 @@ export function buildSupplyGraph(s: DemoState): SupplyGraph {
           ? `${available} transferable units · ${l.plant}`
           : `Protected stock · ${l.plant}`,
       risk: shortage > 0,
-      x: l.kind === "Warehouse" ? 592 : 884,
+      x: l.kind === "Warehouse" ? 1016 : 1264,
       y:
         l.kind === "Warehouse"
           ? 126 + warehouses.indexOf(l) * 190
-          : 30 + endpoints.indexOf(l) * 88,
+          : 30 + endpoints.indexOf(l) * 96,
     });
   });
   edges.push({
@@ -276,4 +366,139 @@ export function proposalFor(o: Opportunity, s: DemoState) {
     destination: dest,
     quantity: Math.min(40, transferable(s, source), gap),
   };
+}
+
+export type NetworkDirection = "both" | "upstream" | "downstream";
+/** Directional reachability retains the SKU carried along each path. */
+export function focusNetwork(
+  graph: SupplyGraph,
+  nodeId: string,
+  skuFilter = "All products",
+  direction: NetworkDirection = "both",
+) {
+  const node = graph.nodes.find((n) => n.id === nodeId);
+  const skus = new Set(
+    (node?.skus || []).filter(
+      (sku) => skuFilter === "All products" || sku === skuFilter,
+    ),
+  );
+  const ids = new Set<string>(node ? [node.id] : []),
+    edgeIds = new Set<string>();
+  for (const sku of skus) {
+    for (const upstream of direction === "both"
+      ? [true, false]
+      : [direction === "upstream"]) {
+      const visited = new Set([nodeId]),
+        queue = [nodeId];
+      while (queue.length) {
+        const id = queue.shift()!;
+        for (const e of graph.edges) {
+          if (!e.skus.includes(sku) || (upstream ? e.to : e.from) !== id)
+            continue;
+          const next = upstream ? e.from : e.to;
+          edgeIds.add(e.id);
+          ids.add(next);
+          if (!visited.has(next)) {
+            visited.add(next);
+            queue.push(next);
+          }
+        }
+      }
+    }
+  }
+  return {
+    nodes: graph.nodes.filter((n) => ids.has(n.id)),
+    edges: graph.edges.filter((e) => edgeIds.has(e.id)),
+    skus,
+  };
+}
+export interface NetworkIssue {
+  id: string;
+  sku: string;
+  title: string;
+  evidence: string;
+  severity: "Error" | "Warning" | "Information";
+  source:
+    | "Demand Intelligence"
+    | "Inventory & Supply"
+    | "SAP Workflow"
+    | "Action Center";
+  opportunity: Opportunity;
+}
+export function networkIssues(
+  state: DemoState,
+  skus: Set<string>,
+): NetworkIssue[] {
+  const issues: NetworkIssue[] = [];
+  for (const o of opportunities.filter((o) => skus.has(o.sku))) {
+    const dest = state.inventory.find((i) => i.id === `${o.id}-dest`)!;
+    const gap = Math.max(0, demandFor(o, state) - dest.stock);
+    if (gap)
+      issues.push({
+        id: `gap:${o.id}`,
+        sku: o.sku,
+        title: `${o.location}: ${gap} units uncovered`,
+        evidence: `${dest.stock} on hand / ${demandFor(o, state)} units of 7-day demand. ${incomingUnits(state, dest.id)} units in open proposals or transit; not yet on hand.`,
+        severity: "Error",
+        source: "Inventory & Supply",
+        opportunity: o,
+      });
+    if (o.risk !== "On schedule")
+      issues.push({
+        id: `supplier:${o.id}`,
+        sku: o.sku,
+        title: `${o.supplier}: ${o.risk}`,
+        evidence: `${o.lead}-day supplier lead time; exceeds the 7-day demand window. Seeded supplier status.`,
+        severity: "Warning",
+        source: "Inventory & Supply",
+        opportunity: o,
+      });
+    const rate = (o.purchases / o.tries) * 100;
+    if (rate < o.baseline)
+      issues.push({
+        id: `conversion:${o.id}`,
+        sku: o.sku,
+        title: `Conversion ${(o.baseline - rate).toFixed(1)} pp below baseline`,
+        evidence: `${o.purchases} purchases / ${o.tries} try-ons = ${rate.toFixed(1)}%; baseline ${o.baseline}%. ${o.oos} qualified out-of-stock sessions. Availability, fit and price require investigation.`,
+        severity: "Warning",
+        source: "Demand Intelligence",
+        opportunity: o,
+      });
+    for (const t of state.transfers.filter(
+      (t) => t.sku === o.sku && !["Received", "Cancelled"].includes(t.stage),
+    ))
+      issues.push({
+        id: t.id,
+        sku: o.sku,
+        title: `${t.id}: ${t.stage}`,
+        evidence: `${t.quantity} units ${t.stage === "In transit" ? "in transit" : "awaiting workflow execution"}; stock becomes sellable only on receipt.`,
+        severity: "Information",
+        source: "SAP Workflow",
+        opportunity: o,
+      });
+    for (const a of state.actions.filter(
+      (a) => a.opportunity === o.id && a.status === "Pending review",
+    ))
+      issues.push({
+        id: a.id,
+        sku: o.sku,
+        title: a.type,
+        evidence: `${a.owner}: ${a.detail}`,
+        severity: "Information",
+        source: "Action Center",
+        opportunity: o,
+      });
+  }
+  const online = state.inventory.find((i) => i.id === "online-west");
+  if (online && skus.has(online.sku) && online.stock < onlineDemand(15, 7))
+    issues.push({
+      id: "online-gap",
+      sku: online.sku,
+      title: `Online West: ${onlineDemand(15, 7) - online.stock} units uncovered`,
+      evidence: `${online.stock} sellable units; 15% conversion assumption on qualified sessions. Seven-day estimated sales foregone: ${salesRisk(onlineDemand(15, 7), online.stock, opportunities[0].price, 70).expected.toFixed(2)} CAD at 70% lost sales.`,
+      severity: "Error",
+      source: "Demand Intelligence",
+      opportunity: opportunities[0],
+    });
+  return issues;
 }
